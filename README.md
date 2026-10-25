@@ -7,6 +7,8 @@ OBRIO AI Ops test task.
 | **Task 1** | Ticket → category, priority (P1–P4), recommended next step, routing team, `needs_human` | [`docs/task1_report.md`](docs/task1_report.md) |
 | **Task 2** | Ticket → summary, 3 reply drafts (formal / empathetic / short) in the customer's language, verified KB citations, human-review gate | [`docs/task2_report.md`](docs/task2_report.md) |
 
+Answers to the brief, one folder per task: [`task1/answers.md`](task1/answers.md) and [`task1/hint.md`](task1/hint.md) (grading criteria); [`task2/answers.md`](task2/answers.md) and [`task2/hint.md`](task2/hint.md).
+
 Design decisions with alternatives and reasons: [`docs/design_decisions.md`](docs/design_decisions.md).
 
 ## Results
@@ -28,7 +30,7 @@ source .venv/bin/activate
 cp .env.example .env          # add GEMINI_API_KEY and GROQ_API_KEY (both have free tiers)
 
 pytest -q                                          # unit tests, no network
-uvicorn app.main:app                               # UI at http://localhost:8000
+uvicorn app.main:app                               # Task 2: http://localhost:8000  ·  Task 1: http://localhost:8000/classify
 
 python -m eval.run_classifier_eval --models groq-gpt-oss-120b --prompts v3                     # classifier eval
 python -m eval.run_classifier_eval --models groq-gpt-oss-120b --prompts v3 --dataset holdout   # held-out set
@@ -61,7 +63,7 @@ ticket ─┬─> classifier (Task 1): prompt v3 → LLM (JSON) → validation �
 | Cache | `core/cache.py` | SQLite, thread-safe. Key = prompt content hash + model (+ KB hash); stores the raw model answer, rules re-applied on every hit |
 | Classifier | `classifier/` | `schema.py` (taxonomy, routing), `prompts/v1–v3.md`, `rules.py`, `classify.py` |
 | Assistant | `assistant/` | `kb/*.md` (18 articles), `retrieval.py`, `assist.py`, `prompts/analyze_v1.md`, `draft_v1–v4.md` |
-| Web | `app/` | FastAPI and one HTML page |
+| Web | `app/` | FastAPI; `/classify` = Task 1 classifier page, `/` = Task 2 agent assistant |
 | Eval | `eval/`, `data/`, `results/` | Labelled sets (`tickets_eval.jsonl`, `tickets_holdout.jsonl`, `assist_eval.jsonl`); every run saved as `.md`, `.csv` and `.json` |
 
 Models, prices and fallback order: `config/models.yaml`. The classifier chain is gpt-oss-120b → Gemini 3.5 Flash-Lite → gpt-oss-20b; the assistant chain is Gemini 3.5 Flash-Lite → gpt-oss-120b → gpt-oss-20b. Each task uses the model that measured best for it, with a different provider as backup.
