@@ -1,6 +1,7 @@
 # Model registry. All providers are reached through their OpenAI-compatible endpoints.
-# Prices are USD per 1M tokens. VERIFY against the provider pricing pages before the final
-# cost report — they change often. Ollama runs locally, so its marginal API cost is 0.
+# Prices are USD per 1M tokens, paid tier, standard (non-batch). Output prices include thinking tokens.
+# Gemini: https://ai.google.dev/gemini-api/docs/pricing (checked 2026-10-25; 3.8 Flash doubles on 2027-01-01).
+# Ollama runs locally, so its marginal API cost is 0.
 
 providers:
   gemini:
@@ -15,16 +16,21 @@ providers:
     api_key: ollama
 
 models:
+  gemini-3.1-flash-lite:
+    provider: gemini
+    model: gemini-3.1-flash-lite
+    input_per_mtok: 0.25
+    output_per_mtok: 1.50
   gemini-flash-lite:
     provider: gemini
-    model: gemini-2.5-flash-lite
-    input_per_mtok: 0.10
-    output_per_mtok: 0.40
-  gemini-flash:
-    provider: gemini
-    model: gemini-2.5-flash
+    model: gemini-3.5-flash-lite
     input_per_mtok: 0.30
     output_per_mtok: 2.50
+  gemini-flash:
+    provider: gemini
+    model: gemini-3.8-flash
+    input_per_mtok: 0.75
+    output_per_mtok: 3.75
   groq-llama-70b:
     provider: groq
     model: llama-3.3-70b-versatile
