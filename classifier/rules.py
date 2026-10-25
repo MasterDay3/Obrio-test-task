@@ -24,7 +24,7 @@ VIOLENCE = re.compile(
     r"\b(find|hunt) (her|him|you|them) (down )?and\b|make (her|him|them) pay|\bkill (her|him|you|them)\b|"
     r"i will hurt|знайду (її|його|тебе)|найду (её|его|тебя)", _F)
 LEGAL = re.compile(
-    r"charge ?back|lawyer|attorney|\bsue\b|lawsuit|\bcourt\b|\bFTC\b|regulator|consumer protection|ombudsman|"
+    r"charge ?back|(bank|card|payment) dispute|open (a |the )?dispute|dispute (the|this|a|my) (charge|payment|transaction)|call my bank|contact my bank|lawyer|attorney|\bsue\b|lawsuit|\bcourt\b|\bFTC\b|regulator|consumer protection|ombudsman|"
     r"legal action|юрист|адвокат|\bсуд\b|чарджбек|abogad|demanda|anwalt|klage|verbraucherschutz|prawnik", _F)
 PRIVACY = re.compile(
     r"gdpr|dsgvo|rgpd|ccpa|personal data|delete (my )?(account|data)|erase my data|"
@@ -33,14 +33,18 @@ TAKEOVER = re.compile(
     r"someone (else )?(logged|log) in|someone (has )?(accessed|hacked)|\bhacked\b|account (was )?stolen|"
     r"зламали|взломали|unauthori[sz]ed (access|login)", _F)
 REPEAT = re.compile(
-    r"\b(second|third|fourth|fifth|\d+(st|nd|rd|th)?) time\b|already (wrote|written|contacted|asked|emailed)|"
+    r"\b(second|third|fourth|fifth|[2-9](nd|rd|th)?|\d{2,}(st|nd|rd|th)?) time\b|already (wrote|written|contacted|asked|emailed)|"
     r"втретє|вдруге|вже писав|вже писала|уже писал|третий раз|третій раз", _F)
 MINOR = re.compile(
     r"\b(1[0-7]|[5-9])[- ]?(year|yr)s?[- ]old\b|my (son|daughter|kid|child)\b|моя донька|мій син|моя дочь|мой сын", _F)
 INJECTION = re.compile(
     r"ignore (all |any )?(the )?(previous|prior|above) (instructions|rules)|disregard (your|the) (instructions|rules)|"
     r"you are now|system prompt|classify this (ticket )?as|ігноруй (попередні )?інструкції|игнорируй", _F)
-AMOUNT = re.compile(r"(?:[$€]\s?(\d+(?:[.,]\d{1,2})?))|(?:(\d+(?:[.,]\d{1,2})?)\s?(?:\$|€|usd|eur|euro))", _F)
+_NUM = r"\d{1,3}(?:[ ,.]\d{3})+(?:[.,]\d{1,2})?|\d+(?:[.,]\d{1,2})?"
+AMOUNT = re.compile(rf"([$€£])\s?({_NUM})|({_NUM})\s?(\$|€|£|usd|eur|euros?|gbp|грн|uah)(?!\w)", _F)
+# Rough rates, used only to compare against HIGH_AMOUNT; not for anything customer-facing.
+TO_USD = {"$": 1.0, "usd": 1.0, "€": 1.1, "eur": 1.1, "euro": 1.1, "euros": 1.1, "£": 1.3, "gbp": 1.3,
+          "грн": 1 / 41, "uah": 1 / 41}
 
 _ORDER = [Priority.P1, Priority.P2, Priority.P3, Priority.P4]
 
@@ -49,8 +53,22 @@ def _raise_to(current: Priority, floor: Priority) -> Priority:
     return min(current, floor, key=_ORDER.index)
 
 
+def _parse_number(s: str) -> float:
+    """'1,299' / '1.299,00' / '2 000' / '19.99' -> float. A 3-digit group after a separator means thousands."""
+    s = s.replace(" ", "")
+    if "," in s and "." in s:
+        dec = "," if s.rfind(",") > s.rfind(".") else "."
+        return float(s.replace("." if dec == "," else ",", "").replace(dec, "."))
+    for sep in ",.":
+        if sep in s:
+            parts = s.split(sep)
+            return float("".join(parts)) if len(parts) > 2 or len(parts[-1]) == 3 else float(s.replace(sep, "."))
+    return float(s)
+
+
 def max_amount(text: str) -> float:
-    values = [float((a or b).replace(",", ".")) for a, b in AMOUNT.findall(text)]
+    """Largest money amount in the text, converted to approximate USD."""
+    values = [_parse_number(n1 or n2) * TO_USD[(c1 or c2).lower()] for c1, n1, n2, c2 in AMOUNT.findall(text)]
     return max(values, default=0.0)
 
 
@@ -81,7 +99,10 @@ def apply_rules(text: str, c: Classification) -> tuple[Classification, list[str]
     if INJECTION.search(text):
         flag("possible_prompt_injection")
 
-    money = c.category in (Category.refund_request, Category.billing_subscription)
+    # Money rules also apply when billing/refund is secondary, or the ticket became legal (e.g. "refund or I call my
+    # bank"): seen in the UI test, where a $180 purchase by a minor lost both flags after being routed to legal.
+    money_cats = {Category.refund_request, Category.billing_subscription, Category.legal_privacy}
+    money = c.category in money_cats or bool(money_cats & set(c.secondary_categories))
     if money and max_amount(text) > HIGH_AMOUNT:
         flag("high_amount")
     if money and MINOR.search(text):

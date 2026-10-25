@@ -71,6 +71,12 @@ class Classification(BaseModel):
         valid = {c.value for c in Category}
         return [c for c in (v or []) if c in valid]
 
+    @field_validator("confidence", mode="before")
+    @classmethod
+    def _percent_to_fraction(cls, v):
+        # Some models answer 95 instead of 0.95; rescale instead of failing the whole ticket.
+        return v / 100 if isinstance(v, (int, float)) and 1 < v <= 100 else v
+
     @field_validator("language", mode="before")
     @classmethod
     def _lower_lang(cls, v):
@@ -90,5 +96,6 @@ class TicketResult(BaseModel):
     cost_usd: float = 0.0
     input_tokens: int = 0
     output_tokens: int = 0
+    cached_input_tokens: int = 0  # provider prompt-cache hits, billed at the cached rate
     errors: list[str] = Field(default_factory=list)
     cached: bool = False

@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import hashlib
+import re
 from functools import cache as memo
 from pathlib import Path
 
@@ -13,8 +14,8 @@ from core.json_guard import StructuredCallFailed, structured_call
 from core.llm import LLMClient
 
 PROMPTS_DIR = Path(__file__).resolve().parent / "prompts"
-DEFAULT_PROMPT = "v1"
-MAX_TICKET_CHARS = 6000  # long threads are truncated; the head carries the request in practice
+DEFAULT_PROMPT = "v3"
+MAX_TICKET_CHARS = 6000  # longer tickets keep their head and tail: greetings/context first, the actual ask often last
 
 
 @memo
@@ -26,10 +27,22 @@ def prompt_hash(version: str) -> str:
     return hashlib.sha256(load_prompt(version).encode()).hexdigest()[:12]
 
 
+def clip_ticket(text: str, limit: int = MAX_TICKET_CHARS) -> str:
+    if len(text) <= limit:
+        return text
+    half = limit // 2
+    return f"{text[:half]}\n[… {len(text) - limit} characters omitted …]\n{text[-half:]}"
+
+
+def wrap_ticket(text: str) -> str:
+    """Wrap customer text in <ticket> tags, neutralising any tag inside it so the text cannot close the block."""
+    return f"<ticket>\n{re.sub(r'<(/?)\s*ticket', r'<\1_ticket', text, flags=re.IGNORECASE)}\n</ticket>"
+
+
 def build_messages(text: str, version: str) -> list[dict]:
     system = load_prompt(version)
     # From v3 on the ticket is wrapped in delimiters so instructions inside it read as data.
-    user = f"<ticket>\n{text}\n</ticket>" if "<ticket>" in system else text
+    user = wrap_ticket(text) if "<ticket>" in system else text
     return [{"role": "system", "content": system}, {"role": "user", "content": user}]
 
 
@@ -42,7 +55,7 @@ def _fallback(reason: str, priority: Priority = Priority.P3, category: Category 
 
 def classify(text: str, chain: list[LLMClient], prompt_version: str = DEFAULT_PROMPT,
              cache: Cache | None = None, use_rules: bool = True) -> TicketResult:
-    text = (text or "").strip()[:MAX_TICKET_CHARS]
+    text = clip_ticket((text or "").strip())
 
     if len(normalize(text)) < 3:
         # Nothing to classify: no model call, ask the customer for details.
@@ -54,7 +67,12 @@ def classify(text: str, chain: list[LLMClient], prompt_version: str = DEFAULT_PR
     if cache and chain:
         key = make_key("classify", prompt_hash(prompt_version), chain[0].alias, normalize(text))
         if (hit := cache.get(key)) is not None:
-            return TicketResult.model_validate({**hit, "cached": True})
+            # Only the model's raw answer is trusted from cache; rules are re-applied so rule edits apply at once.
+            cached = TicketResult.model_validate(hit)
+            raw = cached.raw_classification
+            final, hits = apply_rules(text, raw) if use_rules else (raw, [])
+            return cached.model_copy(update={"classification": final, "rule_hits": hits,
+                                             "team": ROUTING[final.category], "cached": True})
 
     try:
         res = structured_call(chain, build_messages(text, prompt_version), Classification)
@@ -71,6 +89,7 @@ def classify(text: str, chain: list[LLMClient], prompt_version: str = DEFAULT_PR
         rule_hits=hits, model=res.model_alias, prompt_version=prompt_version,
         latency_s=res.latency_s, cost_usd=res.cost_usd,
         input_tokens=sum(c.input_tokens for c in res.calls), output_tokens=sum(c.output_tokens for c in res.calls),
+        cached_input_tokens=sum(c.cached_input_tokens for c in res.calls),
         errors=res.errors,
     )
     # Only cache clean answers from the primary model; a fallback answer should be retried next time.
