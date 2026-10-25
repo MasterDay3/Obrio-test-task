@@ -1,0 +1,40 @@
+# Model registry. All providers are reached through their OpenAI-compatible endpoints.
+# Prices are USD per 1M tokens. VERIFY against the provider pricing pages before the final
+# cost report — they change often. Ollama runs locally, so its marginal API cost is 0.
+
+providers:
+  gemini:
+    base_url: https://generativelanguage.googleapis.com/v1beta/openai/
+    api_key_env: GEMINI_API_KEY
+  groq:
+    base_url: https://api.groq.com/openai/v1
+    api_key_env: GROQ_API_KEY
+  ollama:
+    base_url_env: OLLAMA_BASE_URL
+    base_url: http://localhost:11434/v1
+    api_key: ollama
+
+models:
+  gemini-flash-lite:
+    provider: gemini
+    model: gemini-2.5-flash-lite
+    input_per_mtok: 0.10
+    output_per_mtok: 0.40
+  gemini-flash:
+    provider: gemini
+    model: gemini-2.5-flash
+    input_per_mtok: 0.30
+    output_per_mtok: 2.50
+  groq-llama-70b:
+    provider: groq
+    model: llama-3.3-70b-versatile
+    input_per_mtok: 0.59
+    output_per_mtok: 0.79
+  ollama-qwen-7b:
+    provider: ollama
+    model: qwen2.5:7b
+    input_per_mtok: 0.0
+    output_per_mtok: 0.0
+
+# Order in which models are tried when the previous one fails (timeout, 429, invalid JSON).
+fallback_chain: [gemini-flash-lite, groq-llama-70b, ollama-qwen-7b]
