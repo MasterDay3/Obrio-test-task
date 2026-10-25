@@ -45,12 +45,17 @@ def index(request: Request):
     return templates.TemplateResponse(request, "index.html")
 
 
+@app.get("/classify", response_class=HTMLResponse)
+def classify_page(request: Request):
+    return templates.TemplateResponse(request, "classify.html")
+
+
 @app.get("/api/models")
-def models():
+def models(task: str = "assist"):
     config = load_config()
     available = {c.alias for c in make_chain(list(config["models"]))}
     # Production chain first, so the UI pre-selects the primary model rather than the first config entry.
-    chain = config.get("assistant_chain") or config["fallback_chain"]  # this page is the assistant
+    chain = config["fallback_chain"] if task == "classify" else (config.get("assistant_chain") or config["fallback_chain"])
     order = chain + [a for a in config["models"] if a not in chain]
     return [{"alias": a, "model": config["models"][a]["model"], "available": a in available,
              "in_chain": a in chain} for a in order]
