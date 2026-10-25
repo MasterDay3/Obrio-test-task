@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Support Assistant</title>
+<style>
+  :root {
+    --bg: #f6f6f8; --card: #fff; --text: #1d1d1f; --muted: #6b6b75; --border: #e2e2e8;
+    --accent: #5b4bdb; --danger-bg: #fdecec; --danger: #b42318; --warn-bg: #fff6e0; --warn: #8a5a00; --ok: #067647;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg: #141417; --card: #1e1e23; --text: #ececf1; --muted: #9a9aa6; --border: #33333b;
+            --accent: #9d8fff; --danger-bg: #3a1a1a; --danger: #ff8a80; --warn-bg: #352a10; --warn: #f2c063; --ok: #6ce9a6; }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; font: 15px/1.5 system-ui, -apple-system, sans-serif; background: var(--bg); color: var(--text); }
+  main { max-width: 1100px; margin: 0 auto; padding: 24px 16px 64px; }
+  h1 { font-size: 1.3rem; margin: 0 0 16px; }
+  h2 { font-size: .8rem; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); margin: 0 0 8px; }
+  .card { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 16px; margin-bottom: 16px; }
+  textarea { width: 100%; min-height: 140px; font: inherit; padding: 10px; border-radius: 8px; border: 1px solid var(--border);
+             background: var(--bg); color: var(--text); resize: vertical; }
+  .row { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; margin-top: 10px; }
+  select, button { font: inherit; padding: 7px 12px; border-radius: 8px; border: 1px solid var(--border); background: var(--card); color: var(--text); }
+  button.primary { background: var(--accent); border-color: var(--accent); color: #fff; cursor: pointer; }
+  button:disabled { opacity: .45; cursor: not-allowed; }
+  .muted { color: var(--muted); font-size: .9em; }
+  .chips { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 8px; }
+  .chip { border: 1px solid var(--border); border-radius: 999px; padding: 2px 10px; font-size: .85em; }
+  .chip.p1 { border-color: var(--danger); color: var(--danger); } .chip.p2 { border-color: var(--warn); color: var(--warn); }
+  .banner { background: var(--danger-bg); color: var(--danger); border: 1px solid var(--danger); border-radius: 10px; padding: 14px 16px; margin-bottom: 16px; }
+  .banner strong { display: block; margin-bottom: 4px; }
+  .banner ul { margin: 6px 0 10px; padding-left: 20px; }
+  .banner label { color: var(--text); font-weight: 600; cursor: pointer; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; }
+  .reply { display: flex; flex-direction: column; }
+  .reply .body { white-space: pre-wrap; flex: 1; }
+  .warn { background: var(--warn-bg); color: var(--warn); border-radius: 6px; padding: 6px 8px; font-size: .88em; margin: 8px 0 0; }
+  .cite { font-size: .85em; color: var(--muted); border-left: 3px solid var(--border); padding-left: 8px; margin-top: 8px; }
+  .cite a { color: var(--accent); }
+  .passage { border-top: 1px solid var(--border); padding: 8px 0; font-size: .9em; }
+  .passage:first-of-type { border-top: 0; }
+  .error { color: var(--danger); }
+  .hidden { display: none; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Support Assistant</h1>
+
+  <div class="card">
+    <h2>Ticket</h2>
+    <textarea id="ticket" placeholder="Paste the customer's message here…"></textarea>
+    <div class="row">
+      <button class="primary" id="run">Analyse ticket</button>
+      <label class="muted">Model <select id="model"></select></label>
+      <span id="status" class="muted"></span>
+    </div>
+  </div>
+
+  <div id="out" class="hidden">
+    <div id="banner" class="banner hidden">
+      <strong>⚠ Human decision required: do not send an AI draft as-is.</strong>
+      <ul id="reasons"></ul>
+      <label><input type="checkbox" id="ack"> I reviewed the case and will decide the outcome myself</label>
+    </div>
+
+    <div class="card">
+      <h2>Summary</h2>
+      <div id="summary"></div>
+      <div id="wants" class="muted"></div>
+      <div id="chips" class="chips"></div>
+      <div id="next" class="muted" style="margin-top:8px"></div>
+    </div>
+
+    <div class="grid" id="replies"></div>
+
+    <div class="card">
+      <h2>Knowledge base passages used</h2>
+      <div id="passages"></div>
+    </div>
+    <p id="meta" class="muted"></p>
+  </div>
+</main>
+
+<script>
+const $ = (id) => document.getElementById(id);
+const el = (tag, cls, text) => { const e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; };
+const TONES = { formal: "Formal", empathetic: "Empathetic", short: "Short" };
+let humanRequired = false;
+
+async function loadModels() {
+  const models = await (await fetch("/api/models")).json();
+  for (const m of models) {
+    const o = el("option", null, m.alias + (m.available ? "" : " (no key)"));
+    o.value = m.alias; o.disabled = !m.available;
+    $("model").append(o);
+  }
+  const first = models.find((m) => m.available);
+  if (first) $("model").value = first.alias;
+  else $("status").textContent = "No model configured: add API keys to .env or start Ollama.";
+}
+
+function updateCopyButtons() {
+  const locked = humanRequired && !$("ack").checked;
+  document.querySelectorAll(".copy").forEach((b) => {
+    b.disabled = locked || !b.dataset.text;
+    b.title = locked ? "Confirm the review checkbox above first" : "";
+  });
+}
+
+function render(r) {
+  $("out").classList.remove("hidden");
+  humanRequired = r.human_required;
+  $("banner").classList.toggle("hidden", !humanRequired);
+  $("reasons").replaceChildren(...r.human_reasons.map((t) => el("li", null, t)));
+  $("ack").checked = false;
+
+  $("summary").textContent = r.summary;
+  $("wants").textContent = r.customer_wants ? "Wants: " + r.customer_wants : "";
+  const c = r.classification?.classification;
+  const chips = [];
+  if (c) {
+    chips.push(el("span", "chip " + c.priority.toLowerCase(), c.priority));
+    chips.push(el("span", "chip", c.category.replaceAll("_", " ")));
+    chips.push(el("span", "chip", "→ " + r.classification.team));
+    chips.push(el("span", "chip", "sentiment: " + c.sentiment));
+  }
+  chips.push(el("span", "chip", "lang: " + r.language));
+  $("chips").replaceChildren(...chips);
+  $("next").textContent = c ? "Suggested next step: " + c.next_step : "";
+
+  const cards = Object.entries(TONES).map(([tone, label]) => {
+    const rep = r.replies[tone];
+    const card = el("div", "card reply");
+    card.append(el("h2", null, label));
+    card.append(el("div", "body", rep?.text || "(no draft)"));
+    for (const w of rep?.warnings || []) card.append(el("div", "warn", w));
+    for (const ci of rep?.citations || []) {
+      const d = el("div", "cite");
+      const a = el("a", null, ci.article_id); a.href = "/kb/" + encodeURIComponent(ci.article_id); a.target = "_blank";
+      d.append(a, document.createTextNode(": “" + ci.quote + "”"));
+      card.append(d);
+    }
+    const row = el("div", "row");
+    const btn = el("button", "copy", "Copy"); btn.dataset.text = rep?.text || "";
+    btn.onclick = async () => { await navigator.clipboard.writeText(btn.dataset.text); btn.textContent = "Copied"; setTimeout(() => (btn.textContent = "Copy"), 1200); };
+    row.append(btn); card.append(row);
+    return card;
+  });
+  if (!Object.keys(r.replies).length) cards.splice(0, 3, el("div", "card error", "AI drafts unavailable. Write the reply manually."));
+  $("replies").replaceChildren(...cards);
+  updateCopyButtons();
+
+  $("passages").replaceChildren(...(r.passages.length ? r.passages.map((p) => {
+    const d = el("div", "passage");
+    const a = el("a", null, p.title + " / " + p.section); a.href = "/kb/" + encodeURIComponent(p.article_id) + "#" + p.ref.split("#")[1]; a.target = "_blank";
+    d.append(a, el("div", "muted", p.text));
+    return d;
+  }) : [el("div", "muted", "No relevant article found.")]));
+
+  $("meta").textContent = `model: ${r.classification?.model || "n/a"} · cost: $${r.cost_usd.toFixed(5)} · latency: ${r.latency_s}s`
+    + (r.cached ? " · cached" : "") + (r.errors.length ? ` · ${r.errors.length} recovered error(s)` : "");
+}
+
+$("ack").onchange = updateCopyButtons;
+$("run").onclick = async () => {
+  $("run").disabled = true; $("status").textContent = "Thinking…"; $("status").className = "muted";
+  try {
+    const res = await fetch("/api/assist", { method: "POST", headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ text: $("ticket").value, model: $("model").value || null }) });
+    if (!res.ok) throw new Error((await res.json()).detail || res.statusText);
+    render(await res.json());
+    $("status").textContent = "";
+  } catch (e) {
+    $("status").textContent = "AI unavailable: " + e.message; $("status").className = "error";
+  } finally { $("run").disabled = false; }
+};
+loadModels();
+</script>
+</body>
+</html>

@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{ chunks[0].title }} · Nebula KB</title>
+<style>
+  body { font: 16px/1.55 system-ui, sans-serif; max-width: 720px; margin: 32px auto; padding: 0 16px; color: #1d1d1f; background: #fafafa; }
+  h2 { font-size: 1.05rem; margin-top: 1.6em; scroll-margin-top: 16px; }
+  h2:target { background: #fff3c4; }
+  code { color: #6b6b75; }
+</style>
+</head>
+<body>
+<p><a href="/">← Assistant</a> · <code>{{ article_id }}</code></p>
+<h1>{{ chunks[0].title }}</h1>
+{% for c in chunks %}
+<h2 id="{{ c.ref.split('#')[1] }}">{{ c.section }}</h2>
+<p>{{ c.text }}</p>
+{% endfor %}
+</body>
+</html>
