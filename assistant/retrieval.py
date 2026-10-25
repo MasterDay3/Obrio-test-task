@@ -16,6 +16,9 @@ MIN_SCORE = 4.0  # BM25 hits below this are dropped as noise (tuned on sample qu
 _STOP = set("""a an the and or but if of to in on at for from by with without is are was were be been being it its this that
 these those i me my you your we our they them their he she his her can could should would will do does did not no yes
 so as than then there here what which who how when where why please hi hello thanks thank just also very any all""".split())
+# Domain stopwords: present in almost every support ticket, so they match random articles (eval: "dark mode feature
+# request" matched refund-policy only through "request").
+_STOP |= {"request", "requests", "help", "issue", "problem", "app", "nebula", "customer", "support", "question"}
 
 
 def tokenize(text: str) -> list[str]:

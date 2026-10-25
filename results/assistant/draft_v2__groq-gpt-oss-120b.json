@@ -1,0 +1,516 @@
+{
+ "model": "groq-gpt-oss-120b",
+ "prompts": {
+  "analyze": "analyze_v1",
+  "draft": "draft_v2",
+  "classifier": "v3"
+ },
+ "metrics": {
+  "tickets": 14,
+  "retrieval_hit_rate": 85.7,
+  "citation_validity": 94.4,
+  "invented_citations": 3,
+  "all_tones_present": 85.7,
+  "short_within_limit": 85.7,
+  "tones_distinct": 85.7,
+  "language_match": 85.7,
+  "human_flag_accuracy": 100.0,
+  "latency_avg_s": 9.5,
+  "cost_per_ticket_usd": 0.001594
+ },
+ "rows": [
+  {
+   "id": "T01",
+   "tags": "baseline",
+   "lang": "en",
+   "expected_articles": [
+    "double-charge"
+   ],
+   "retrieved": [
+    "double-charge",
+    "double-charge",
+    "double-charge",
+    "refund-policy"
+   ],
+   "retrieval_hit": true,
+   "citations_proposed": 3,
+   "citations_verified": 3,
+   "all_tones": true,
+   "short_words": 22,
+   "short_ok": true,
+   "max_tone_similarity": 0.29,
+   "tones_distinct": true,
+   "language_ok": true,
+   "exp_human": false,
+   "act_human": false,
+   "human_ok": true,
+   "human_reasons": [],
+   "summary": "The customer was charged twice for their monthly subscription and wants it resolved.",
+   "formal": "Hello, we have reviewed your account and identified two identical completed charges for the same subscription period. This situation is classified as a billing error, and we will confirm both transaction IDs in our system before issuing a full refund for the duplicate charge. The refund will be processed promptly and will appear on your payment method statement in the usual processing time. Please let us know if you have any further questions. Best regards, Nebula Support",
+   "empathetic": "I understand how frustrating it must be to see a double charge on your account this morning. We have confirmed that two identical completed charges for the same month constitute a billing error, so we will verify the transaction IDs and issue a full refund for the extra $39.99 right away. You should see the credit return to your payment method shortly. If anything else comes up, feel free to reach out.",
+   "short": "We see a duplicate charge, which is a billing error. We will verify the IDs and refund the extra $39.99 in full.",
+   "errors": [],
+   "cost": 0.0014773,
+   "latency_s": 3.59
+  },
+  {
+   "id": "T03",
+   "tags": "baseline",
+   "lang": "en",
+   "expected_articles": [
+    "trial-terms",
+    "refund-policy"
+   ],
+   "retrieved": [
+    "trial-terms",
+    "trial-terms",
+    "refund-policy",
+    "double-charge"
+   ],
+   "retrieval_hit": true,
+   "citations_proposed": 6,
+   "citations_verified": 6,
+   "all_tones": true,
+   "short_words": 29,
+   "short_ok": true,
+   "max_tone_similarity": 0.39,
+   "tones_distinct": true,
+   "language_ok": true,
+   "exp_human": false,
+   "act_human": false,
+   "human_ok": true,
+   "human_reasons": [],
+   "summary": "The customer was charged $59.99 for an annual plan after forgetting to cancel the free trial and wants a refund.",
+   "formal": "Hello, we have reviewed your request regarding the $59.99 charge that was applied after the trial period. Because the charge occurred less than seven days ago and you have not used the app since the charge, you meet the criteria for a refund under our policy. We will initiate the refund to the original payment method and you will receive a confirmation once the process is complete. If you have any further questions, please let us know. Best regards, Nebula Support",
+   "empathetic": "I understand how frustrating it can be to be charged after forgetting to cancel the trial. Because the charge was made less than seven days ago and you have not used the app since, you qualify for a refund under our policy. I will start the refund to the payment method you used and you will receive a confirmation email once it is processed. If anything else comes up, feel free to reach out.",
+   "short": "You qualify for a refund because the charge is under 7 days old and the app was not used. We will process the refund and send you a confirmation.",
+   "errors": [],
+   "cost": 0.001524,
+   "latency_s": 3.9
+  },
+  {
+   "id": "T05",
+   "tags": "baseline",
+   "lang": "en",
+   "expected_articles": [
+    "login-magic-link"
+   ],
+   "retrieved": [
+    "login-magic-link",
+    "login-magic-link",
+    "login-magic-link",
+    "account-security"
+   ],
+   "retrieval_hit": true,
+   "citations_proposed": 6,
+   "citations_verified": 6,
+   "all_tones": true,
+   "short_words": 32,
+   "short_ok": true,
+   "max_tone_similarity": 0.32,
+   "tones_distinct": true,
+   "language_ok": true,
+   "exp_human": false,
+   "act_human": false,
+   "human_ok": true,
+   "human_reasons": [],
+   "summary": "The customer cannot log in because the magic link email never arrives despite multiple attempts.",
+   "formal": "Hello,\n\nPlease verify that the magic‑link email has not been placed in your spam or promotions folder, as these messages are sometimes filtered. Remember that each link is valid for only 15 minutes and only the most recent link will function; corporate mail filters can also block delivery. If after checking these items you are still unable to sign in, please provide us with your device model, operating system version, and the app version you are using so we can forward the case to our technical support team for further investigation.\n\nBest regards, Nebula Support",
+   "empathetic": "That must be frustrating, especially after trying several times. Let’s make sure the email isn’t hiding in your spam or promotions folder, and keep in mind the link only works for 15 minutes and the newest link overrides any older ones; corporate mail filters can sometimes stop it from arriving. If it still doesn’t come through, could you send us your device model, OS version, and app version? With that information we’ll hand the issue off to our tech team to get you a working link.\n\nBest regards, Nebula Support",
+   "short": "Check spam/promotions folders; links expire after 15 minutes and only the latest works, corporate filters may block them. If still blocked, send device model, OS version, and app version for tech escalation.",
+   "errors": [],
+   "cost": 0.0015349,
+   "latency_s": 4.18
+  },
+  {
+   "id": "T06",
+   "tags": "expert_misconduct",
+   "lang": "en",
+   "expected_articles": [
+    "expert-conduct"
+   ],
+   "retrieved": [
+    "expert-conduct",
+    "expert-conduct",
+    "account-security"
+   ],
+   "retrieval_hit": true,
+   "citations_proposed": 6,
+   "citations_verified": 3,
+   "all_tones": true,
+   "short_words": 34,
+   "short_ok": true,
+   "max_tone_similarity": 0.39,
+   "tones_distinct": true,
+   "language_ok": true,
+   "exp_human": true,
+   "act_human": true,
+   "human_ok": true,
+   "human_reasons": [
+    "Possible expert misconduct: Expert Quality reviews the transcript, do not promise an outcome.",
+    "A draft cited text that does not exist in the KB: verify facts before sending."
+   ],
+   "summary": "The customer reports that astrologer Elena was rude and gave upsetting advice, which they find unacceptable.",
+   "formal": "Hello,\n\nThank you for bringing this matter to our attention. We take reports of unprofessional conduct very seriously. According to our Expert Code of Conduct, complaints about expert behaviour are escalated to the Expert Quality team, which will review the chat transcript within 48 hours. Additionally, experts are prohibited from advising customers to end relationships or make major life decisions. Your report will be forwarded for review, and we will follow up with you after the investigation is complete. Best regards, Nebula Support",
+   "empathetic": "I understand how upsetting it must have been to hear such harsh advice from Elena. I’m sorry you experienced that. We treat reports of unprofessional behavior very seriously. Our policy states that complaints about expert conduct are sent to the Expert Quality team, which will examine the chat transcript within 48 hours. Experts are also not allowed to tell customers to end relationships or make major life decisions. Your complaint has been logged and will be reviewed, and we will contact you once the review is finished.",
+   "short": "Your report has been forwarded to the Expert Quality team, which will review the transcript within 48 hours. Experts are prohibited from advising customers to end relationships. We will update you after the review.",
+   "errors": [],
+   "cost": 0.0018921,
+   "latency_s": 5.45
+  },
+  {
+   "id": "T09",
+   "tags": "privacy",
+   "lang": "en",
+   "expected_articles": [
+    "account-deletion"
+   ],
+   "retrieved": [
+    "account-deletion",
+    "account-deletion",
+    "account-deletion",
+    "edit-birth-data"
+   ],
+   "retrieval_hit": true,
+   "citations_proposed": 3,
+   "citations_verified": 3,
+   "all_tones": true,
+   "short_words": 21,
+   "short_ok": true,
+   "max_tone_similarity": 0.33,
+   "tones_distinct": true,
+   "language_ok": true,
+   "exp_human": true,
+   "act_human": true,
+   "human_ok": true,
+   "human_reasons": [
+    "Personal-data request (GDPR): only the Privacy team can action it.",
+    "Legal or privacy matter: route to Legal & Privacy, agent must not commit to anything."
+   ],
+   "summary": "The customer requests that their account and all personal data be deleted in accordance with GDPR.",
+   "formal": "Hello, we have received your request to delete your Nebula account and all associated personal data. Your request will be forwarded to our Privacy team, which is responsible for completing GDPR deletion requests within 30 days. Please note that the deletion process is handled by that team and you will be notified once it is finalized. Best regards, Nebula Support",
+   "empathetic": "I understand you want to make sure all of your personal information is removed as quickly as possible. We have sent your deletion request to our Privacy team, and they will handle the account and data removal in accordance with GDPR, typically within 30 days. You will receive confirmation when the process is complete.",
+   "short": "Your deletion request has been forwarded to the Privacy team and will be completed within 30 days as required by GDPR.",
+   "errors": [],
+   "cost": 0.0012561,
+   "latency_s": 3.19
+  },
+  {
+   "id": "T11",
+   "tags": "safety",
+   "lang": "en",
+   "expected_articles": [
+    "reading-disclaimer"
+   ],
+   "retrieved": [
+    "reading-disclaimer",
+    "reading-disclaimer"
+   ],
+   "retrieval_hit": true,
+   "citations_proposed": 3,
+   "citations_verified": 3,
+   "all_tones": true,
+   "short_words": 30,
+   "short_ok": true,
+   "max_tone_similarity": 0.35,
+   "tones_distinct": true,
+   "language_ok": true,
+   "exp_human": true,
+   "act_human": true,
+   "human_ok": true,
+   "human_reasons": [
+    "Possible self-harm or threat of violence: escalate to Trust & Safety, do not send a template."
+   ],
+   "summary": "The user expresses feeling hopeless and mentions having no reason to live, indicating suicidal thoughts.",
+   "formal": "Hello,\n\nThank you for reaching out. We understand that you are experiencing thoughts of hopelessness and that this is extremely distressing. In accordance with our policy, we are immediately escalating your case to our Trust & Safety team for further review. We have also provided you with the 988 Suicide & Crisis Lifeline, which is available 24/7 in the United States, and we encourage you to contact local emergency services if you feel you are in immediate danger. Your safety is our priority, and we will continue to monitor the situation.\n\nBest regards, Nebula Support",
+   "empathetic": "I can hear how heavy and painful everything feels for you right now. I’m sorry you’re going through this. We want you to know that we are taking your message seriously and have escalated it right away to our Trust & Safety team for a thorough review. In the meantime, please consider calling the 988 Suicide & Crisis Lifeline, which is available 24/7 across the United States, or reaching out to local emergency services if you feel unsafe. Your wellbeing matters, and we are here to help you get the support you need.",
+   "short": "Your case is being escalated to Trust & Safety and we have shared the 988 Suicide & Crisis Lifeline. Please contact local emergency services if you are in immediate danger.",
+   "errors": [],
+   "cost": 0.0020089,
+   "latency_s": 5.51
+  },
+  {
+   "id": "T18",
+   "tags": "non_english",
+   "lang": "uk",
+   "expected_articles": [
+    "double-charge",
+    "refund-policy"
+   ],
+   "retrieved": [
+    "double-charge",
+    "double-charge",
+    "refund-policy",
+    "double-charge"
+   ],
+   "retrieval_hit": true,
+   "citations_proposed": 3,
+   "citations_verified": 3,
+   "all_tones": true,
+   "short_words": 32,
+   "short_ok": true,
+   "max_tone_similarity": 0.36,
+   "tones_distinct": true,
+   "language_ok": false,
+   "exp_human": false,
+   "act_human": false,
+   "human_ok": true,
+   "human_reasons": [],
+   "summary": "The customer was charged twice for a subscription and asks for the extra charge to be returned.",
+   "formal": "Hello,\n\nWe have reviewed your account and identified that two identical completed charges were applied for the same subscription period. According to our policy, this situation is considered a billing error. We will confirm the transaction IDs in our admin panel and issue a full refund for the duplicate charge. The refund will be processed immediately and should appear on your payment method within a few business days. Please allow up to five business days for the amount to be reflected in your account.\n\nBest regards, Nebula Support",
+   "empathetic": "I understand how upsetting it can be to see your subscription charged twice. I’m sorry for the inconvenience. Our records show that two identical completed charges were posted for the same period, which is a billing error. I will check both transaction IDs in the admin system and process a full refund for the extra charge. The refund will be sent right away and should show up on your card within a few business days. If you have any further questions, feel free to let me know.",
+   "short": "We see a duplicate subscription charge; this is a billing error. We will verify the transactions and refund the extra amount in full. The refund should appear within a few business days.",
+   "errors": [],
+   "cost": 0.0018538,
+   "latency_s": 5.19
+  },
+  {
+   "id": "T21",
+   "tags": "non_english",
+   "lang": "es",
+   "expected_articles": [
+    "edit-birth-data"
+   ],
+   "retrieved": [
+    "edit-birth-data",
+    "edit-birth-data",
+    "how-horoscopes-work",
+    "cancel-android"
+   ],
+   "retrieval_hit": true,
+   "citations_proposed": 6,
+   "citations_verified": 6,
+   "all_tones": true,
+   "short_words": 26,
+   "short_ok": true,
+   "max_tone_similarity": 0.25,
+   "tones_distinct": true,
+   "language_ok": true,
+   "exp_human": false,
+   "act_human": false,
+   "human_ok": true,
+   "human_reasons": [],
+   "summary": "The user entered the wrong birth date when signing up and wants to change it in their profile.",
+   "formal": "Hello,\n\nTo modify the birth date in your Nebula profile, open the Profile section, select Personal data and edit the date, time, or place of birth. The natal chart and horoscopes will be recalculated within a few minutes. Please note that birth data can be changed up to three times per month to prevent abuse of free readings. This update will be reflected in all your personalized reports shortly.\n\nBest regards, Nebula Support",
+   "empathetic": "Entiendo lo frustrante que puede ser haber ingresado una fecha de nacimiento equivocada al crear tu cuenta. Lamento el inconveniente. Para corregirla, entra en tu Perfil, dirígete a Datos personales y modifica la fecha, hora o lugar de nacimiento. El sistema volverá a generar tu carta natal y horóscopos en pocos minutos. Recuerda que puedes realizar este cambio hasta tres veces al mes, lo cual ayuda a evitar el uso indebido de lecturas gratuitas.",
+   "short": "Abre el Perfil, ve a Datos personales y edita la fecha de nacimiento; el horóscopo se actualizará en minutos. Puedes hacerlo hasta 3 veces al mes.",
+   "errors": [],
+   "cost": 0.0018579,
+   "latency_s": 5.27
+  },
+  {
+   "id": "T22",
+   "tags": "non_english,aggressive",
+   "lang": "de",
+   "expected_articles": [
+    "double-charge",
+    "cancel-web"
+   ],
+   "retrieved": [
+    "double-charge",
+    "cancel-web",
+    "cancel-android",
+    "cancel-web"
+   ],
+   "retrieval_hit": true,
+   "citations_proposed": 6,
+   "citations_verified": 6,
+   "all_tones": true,
+   "short_words": 17,
+   "short_ok": true,
+   "max_tone_similarity": 0.25,
+   "tones_distinct": true,
+   "language_ok": true,
+   "exp_human": false,
+   "act_human": false,
+   "human_ok": true,
+   "human_reasons": [],
+   "summary": "The customer cancelled their subscription but was still charged and feels it is fraud.",
+   "formal": "Hello, We have reviewed your account and see that a charge was applied after you cancelled your Nebula subscription. According to our policy, we will issue a refund for the amount that was incorrectly charged and we will attach the cancellation confirmation to this ticket. You should have received a confirmation email shortly after the cancellation; if you did not receive it, we will resend it. Your subscription remains cancelled and will not be renewed. Best regards, Nebula Support",
+   "empathetic": "Ich kann gut nachvollziehen, dass es ärgerlich ist, nach einer Kündigung erneut belastet zu werden. Wir haben den Vorgang geprüft und festgestellt, dass die Abbuchung nach Ihrer bestätigten Kündigung erfolgte. Gemäß unserer Richtlinie erstatten wir Ihnen den zu Unrecht abgebuchten Betrag und fügen die Kündigungsbestätigung dem Vorgang bei. Sie sollten bereits eine Bestätigungs‑E‑Mail erhalten haben; falls nicht, senden wir Ihnen diese umgehend erneut zu. Ihre Mitgliedschaft bleibt beendet und wird nicht weiter verlängert.",
+   "short": "We will refund the charge and confirm your subscription cancellation. A cancellation confirmation email will be sent.",
+   "errors": [],
+   "cost": 0.00216,
+   "latency_s": 6.18
+  },
+  {
+   "id": "T23",
+   "tags": "non_english,surzhyk",
+   "lang": "uk",
+   "expected_articles": [
+    "app-crash"
+   ],
+   "retrieved": [
+    "app-crash",
+    "app-crash",
+    "edit-birth-data",
+    "how-horoscopes-work"
+   ],
+   "retrieval_hit": true,
+   "citations_proposed": 3,
+   "citations_verified": 3,
+   "all_tones": true,
+   "short_words": 30,
+   "short_ok": true,
+   "max_tone_similarity": 0.41,
+   "tones_distinct": true,
+   "language_ok": false,
+   "exp_human": false,
+   "act_human": false,
+   "human_ok": true,
+   "human_reasons": [],
+   "summary": "The user reports that the natal chart does not load and only shows a white screen.",
+   "formal": "Hello,\nWe have identified that a white screen when opening the natal chart is commonly caused by an outdated application, insufficient device storage, or cached data. Please update Nebula to the newest version, restart your phone, and verify that at least 1 GB of storage is free. Afterwards, clear the app cache on Android devices or reinstall the app on iOS. If the problem persists, gather your device model, operating system version, app version, and the steps that lead to the issue, and forward this information to our technical support team for further investigation.\nBest regards, Nebula Support",
+   "empathetic": "Hi,\nI understand how frustrating it is to see only a white screen when you try to view your natal chart. Let’s get it working: first, make sure the Nebula app is updated to the latest version, then restart your phone and confirm you have at least 1 GB of free storage. On Android, clear the app’s cache; on iOS, reinstall the app. If those steps don’t resolve the issue, please note your device model, OS version, app version, and the exact steps that cause the white screen, and send that information to us so our technical team can investigate further.\nBest regards, Nebula Support",
+   "short": "Update Nebula, restart phone, ensure 1 GB free storage, then clear cache (Android) or reinstall (iOS). If it remains white, send device model, OS and app version to tech support.",
+   "errors": [],
+   "cost": 0.0022986,
+   "latency_s": 6.27
+  },
+  {
+   "id": "T24",
+   "tags": "sarcasm",
+   "lang": "en",
+   "expected_articles": [
+    "how-horoscopes-work"
+   ],
+   "retrieved": [
+    "how-horoscopes-work",
+    "refund-policy",
+    "refund-policy",
+    "expert-conduct"
+   ],
+   "retrieval_hit": true,
+   "citations_proposed": 9,
+   "citations_verified": 9,
+   "all_tones": true,
+   "short_words": 32,
+   "short_ok": true,
+   "max_tone_similarity": 0.38,
+   "tones_distinct": true,
+   "language_ok": true,
+   "exp_human": false,
+   "act_human": false,
+   "human_ok": true,
+   "human_reasons": [],
+   "summary": "Customer paid for a personal reading but received a generic copy‑paste text identical to a friend's, indicating the reading was not personalized.",
+   "formal": "Hello,\n\nWe have reviewed your recent personal reading and determined that the identical content you received is a content error. As outlined in our policy, such cases are escalated to the Content team and you are eligible for a refund. I will approve a refund for the amount paid, which will be returned to the original payment method. Please allow 5–10 business days for the funds to appear on your statement. If you have any further questions, feel free to contact us.\n\nBest regards, Nebula Support",
+   "empathetic": "I understand how disappointing it must be to receive a reading that feels generic and identical to a friend’s. I’m sorry you had this experience. Our review shows this is a content error, which we will forward to the Content team, and you qualify for a refund. I will process a refund for the amount you paid, and it will be returned to the original payment method. Expect the credit to appear on your statement within 5–10 business days. Let us know if anything else is needed.",
+   "short": "We’ve identified a content error and will issue a refund to your original payment method; the credit should appear in 5–10 business days. The case is being escalated to the Content team.",
+   "errors": [],
+   "cost": 0.0023572,
+   "latency_s": 6.54
+  },
+  {
+   "id": "T30",
+   "tags": "expert_misconduct",
+   "lang": "en",
+   "expected_articles": [
+    "expert-conduct"
+   ],
+   "retrieved": [],
+   "retrieval_hit": false,
+   "citations_proposed": 0,
+   "citations_verified": 0,
+   "all_tones": false,
+   "short_words": 0,
+   "short_ok": false,
+   "max_tone_similarity": 1.0,
+   "tones_distinct": false,
+   "language_ok": true,
+   "exp_human": true,
+   "act_human": true,
+   "human_ok": true,
+   "human_reasons": [
+    "The classifier is unsure about this ticket: confirm the category yourself.",
+    "AI could not classify this ticket: triage manually.",
+    "No relevant KB article: the drafts cannot be checked against policy, write the answer yourself.",
+    "AI drafts unavailable: write the reply manually."
+   ],
+   "summary": "The psychic asked for my Instagram and keeps messaging me there in private. It's creepy.",
+   "formal": "",
+   "empathetic": "",
+   "short": "",
+   "errors": [
+    "groq-gpt-oss-120b: RateLimitError: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in organization `org_REDACTED` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 197591, Requested 2651. Please try again in 1m44.544s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}",
+    "groq-gpt-oss-120b: RateLimitError: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in organization `org_REDACTED` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 197451, Requested 2765. Please try again in 1m33.312s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}",
+    "groq-gpt-oss-120b: RateLimitError: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in organization `org_REDACTED` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 197591, Requested 3621. Please try again in 8m43.584s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}"
+   ],
+   "cost": 0.0,
+   "latency_s": 0.0
+  },
+  {
+   "id": "T40",
+   "tags": "minor,high_amount",
+   "lang": "en",
+   "expected_articles": [
+    "minor-purchases"
+   ],
+   "retrieved": [
+    "minor-purchases",
+    "refund-policy",
+    "refund-policy",
+    "refund-policy"
+   ],
+   "retrieval_hit": true,
+   "citations_proposed": 0,
+   "citations_verified": 0,
+   "all_tones": false,
+   "short_words": 0,
+   "short_ok": false,
+   "max_tone_similarity": 1.0,
+   "tones_distinct": false,
+   "language_ok": true,
+   "exp_human": true,
+   "act_human": true,
+   "human_ok": true,
+   "human_reasons": [
+    "The classifier is unsure about this ticket: confirm the category yourself.",
+    "AI could not classify this ticket: triage manually.",
+    "AI drafts unavailable: write the reply manually."
+   ],
+   "summary": "A 14-year-old daughter used the customer's card to buy $150 worth of credits and the customer wants the charge reversed.",
+   "formal": "",
+   "empathetic": "",
+   "short": "",
+   "errors": [
+    "groq-gpt-oss-120b: RateLimitError: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in organization `org_REDACTED` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 197711, Requested 3258. Please try again in 6m58.608s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}",
+    "groq-gpt-oss-120b: RateLimitError: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in organization `org_REDACTED` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 197851, Requested 3450. Please try again in 9m22.032s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}"
+   ],
+   "cost": 0.0002902,
+   "latency_s": 1.46
+  },
+  {
+   "id": "T08",
+   "tags": "baseline",
+   "lang": "en",
+   "expected_articles": [],
+   "retrieved": [
+    "payment-failed",
+    "refund-policy"
+   ],
+   "retrieval_hit": false,
+   "citations_proposed": 0,
+   "citations_verified": 0,
+   "all_tones": true,
+   "short_words": 27,
+   "short_ok": true,
+   "max_tone_similarity": 0.27,
+   "tones_distinct": true,
+   "language_ok": true,
+   "exp_human": true,
+   "act_human": true,
+   "human_ok": true,
+   "human_reasons": [
+    "No relevant KB article: the drafts cannot be checked against policy, write the answer yourself."
+   ],
+   "summary": "The user suggests adding a dark mode to the app.",
+   "formal": "Hello, Thank you for sharing your suggestion regarding a dark mode for the Nebula app. We appreciate user feedback as it helps guide our development priorities. Your request has been recorded and will be forwarded to our product team for consideration in future updates. While we cannot guarantee implementation timelines, we will keep you informed of any related announcements. Our development roadmap is reviewed quarterly, and we evaluate feature requests based on user demand and technical feasibility. We value your input and encourage you to share any additional ideas you may have. Best regards, Nebula Support",
+   "empathetic": "I understand you’re excited about having a dark mode to make nighttime reading more comfortable. Thank you for taking the time to suggest this feature; we love hearing how we can improve the experience. I’ve logged your request and passed it along to our product team, who reviews user ideas when planning updates. While we can’t promise a release date, we’ll keep an eye on any developments and let you know if dark mode becomes available. Your feedback helps shape Nebula, so please feel free to share any other thoughts you have.",
+   "short": "We have recorded your dark‑mode suggestion and forwarded it to the product team for review. We will notify you if it is added in a future update.",
+   "errors": [],
+   "cost": 0.0018096,
+   "latency_s": 76.3
+  }
+ ]
+}

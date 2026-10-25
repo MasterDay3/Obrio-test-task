@@ -1,0 +1,528 @@
+{
+ "model": "gemini-flash-lite",
+ "prompts": {
+  "analyze": "analyze_v1",
+  "draft": "draft_v1",
+  "classifier": "v3"
+ },
+ "metrics": {
+  "tickets": 14,
+  "retrieval_hit_rate": 85.7,
+  "citation_validity": 100.0,
+  "invented_citations": 0,
+  "all_tones_present": 78.6,
+  "short_within_limit": 78.6,
+  "tones_distinct": 42.9,
+  "language_match": 100.0,
+  "human_flag_accuracy": 85.7,
+  "latency_avg_s": 3.33,
+  "cost_per_ticket_usd": 0.00248
+ },
+ "rows": [
+  {
+   "id": "T01",
+   "tags": "baseline",
+   "lang": "en",
+   "expected_articles": [
+    "double-charge"
+   ],
+   "retrieved": [
+    "double-charge",
+    "double-charge",
+    "double-charge",
+    "refund-policy"
+   ],
+   "retrieval_hit": true,
+   "citations_proposed": 3,
+   "citations_verified": 3,
+   "all_tones": true,
+   "short_words": 34,
+   "short_ok": true,
+   "max_tone_similarity": 0.54,
+   "tones_distinct": true,
+   "language_ok": true,
+   "exp_human": false,
+   "act_human": false,
+   "human_ok": true,
+   "human_reasons": [],
+   "summary": "The customer was unexpectedly charged twice for their monthly subscription this morning and is asking for a fix.",
+   "formal": "Dear Customer, \n\nThank you for bringing this to our attention. We apologize for the inconvenience regarding the duplicate charge. As per our policy, if two identical completed charges appear for the same period, the duplicate is a billing error. We will confirm both transaction IDs in the admin panel and process a full refund for the duplicate charge.",
+   "empathetic": "I am so sorry to see that you were charged twice this morning! I completely understand how frustrating that can be. Please rest assured that we will look into this right away; if two identical completed charges appear for the same period, it is a billing error, and we will confirm both transaction IDs in the admin panel and refund the duplicate in full for you.",
+   "short": "We apologize for the duplicate charge this morning. Since two identical completed charges appear for the same period, we will confirm both transaction IDs in the admin panel and refund the duplicate in full.",
+   "errors": [
+    "gemini-flash-lite: invalid output: 3 validation errors for Draft replies.formal   Input should be a valid dictionary or instance of Reply [type=model_type, input_value=\"Dear Customer, Thank you...the duplicate in full.'\", input_type=str]     For further information visit https://errors.pydantic.dev/2.14/v/model_type replies.empatheti"
+   ],
+   "cost": 0.003573,
+   "latency_s": 4.0
+  },
+  {
+   "id": "T03",
+   "tags": "baseline",
+   "lang": "en",
+   "expected_articles": [
+    "trial-terms",
+    "refund-policy"
+   ],
+   "retrieved": [
+    "trial-terms",
+    "trial-terms",
+    "refund-policy",
+    "trial-terms"
+   ],
+   "retrieval_hit": true,
+   "citations_proposed": 4,
+   "citations_verified": 4,
+   "all_tones": true,
+   "short_words": 41,
+   "short_ok": true,
+   "max_tone_similarity": 0.51,
+   "tones_distinct": true,
+   "language_ok": true,
+   "exp_human": false,
+   "act_human": false,
+   "human_ok": true,
+   "human_reasons": [],
+   "summary": "The customer was charged $59.99 yesterday after forgetting to cancel their annual plan free trial. They are requesting a refund.",
+   "formal": "Dear Customer, regarding your request for a refund of $59.99 for your annual plan charged yesterday, please be advised that under our refund policy, web purchases made at the Nebula website checkout can be refunded within 14 days of the charge if the paid feature was not substantially used. Additionally, if the first charge happened less than 7 days ago and the app was not used after the charge, you are eligible for a refund. Please confirm whether you have used the app since the charge so we can process your request.",
+   "empathetic": "Hello, I understand how frustrating it is to accidentally be charged after forgetting to cancel a trial, especially for $59.99 yesterday. We want to help! According to our policies, if the first charge happened less than 7 days ago and the app was not used after the charge, you are eligible for a refund. Could you please let us know if you have used the app since the charge?",
+   "short": "You are eligible for a refund if the charge happened less than 7 days ago and the app was not used after the charge. Please let us know if you have used the app since yesterday's charge so we can proceed.",
+   "errors": [],
+   "cost": 0.0027646,
+   "latency_s": 2.8
+  },
+  {
+   "id": "T05",
+   "tags": "baseline",
+   "lang": "en",
+   "expected_articles": [
+    "login-magic-link"
+   ],
+   "retrieved": [
+    "login-magic-link",
+    "login-magic-link",
+    "login-magic-link",
+    "account-security"
+   ],
+   "retrieval_hit": true,
+   "citations_proposed": 6,
+   "citations_verified": 6,
+   "all_tones": true,
+   "short_words": 40,
+   "short_ok": true,
+   "max_tone_similarity": 0.81,
+   "tones_distinct": false,
+   "language_ok": true,
+   "exp_human": false,
+   "act_human": false,
+   "human_ok": true,
+   "human_reasons": [],
+   "summary": "The customer is unable to log into their account because the magic link email is not arriving after multiple attempts. They want to receive the login link to access their account.",
+   "formal": "Dear Customer, please check your spam and promotions folders, as corporate mail filters sometimes block the email. Note that links expire after 15 minutes and only the latest link works. If you still cannot sign in, please provide your device model, OS version and app version for further assistance.",
+   "empathetic": "I am so sorry you're having trouble logging in after trying five times! Please check your spam and promotions folders, keeping in mind that corporate mail filters sometimes block these emails. Also, remember that links expire after 15 minutes and only the latest link works. If you still cannot sign in, please let us know your device model, OS version and app version so we can escalate this to Tech support.",
+   "short": "Please check your spam and promotions folders; corporate mail filters sometimes block the email. Links expire after 15 minutes and only the latest link works. If you still cannot sign in, provide your device model, OS version and app version.",
+   "errors": [
+    "gemini-flash-lite: invalid output: 3 validation errors for Draft replies.formal   Input should be a valid dictionary or instance of Reply [type=model_type, input_value='Dear Customer, we unders...e this to Tech support.', input_type=str]     For further information visit https://errors.pydantic.dev/2.14/v/model_type replies.empatheti"
+   ],
+   "cost": 0.0039175,
+   "latency_s": 4.62
+  },
+  {
+   "id": "T06",
+   "tags": "expert_misconduct",
+   "lang": "en",
+   "expected_articles": [
+    "expert-conduct"
+   ],
+   "retrieved": [
+    "expert-conduct",
+    "expert-conduct",
+    "reading-disclaimer",
+    "reading-disclaimer"
+   ],
+   "retrieval_hit": true,
+   "citations_proposed": 6,
+   "citations_verified": 6,
+   "all_tones": true,
+   "short_words": 39,
+   "short_ok": true,
+   "max_tone_similarity": 0.62,
+   "tones_distinct": false,
+   "language_ok": true,
+   "exp_human": true,
+   "act_human": true,
+   "human_ok": true,
+   "human_reasons": [
+    "Possible expert misconduct: Expert Quality reviews the transcript, do not promise an outcome."
+   ],
+   "summary": "The customer reports that an astrologer named Elena was rude and told them their marriage is doomed. The customer is upset by this behavior.",
+   "formal": "Dear Customer, we sincerely regret to hear about your experience. Please be advised that experts must not tell customers to end relationships, and complaints about expert behaviour are escalated to the Expert Quality team, which reviews the chat transcript within 48 hours. Your case is currently being reviewed.",
+   "empathetic": "I am so sorry to hear that Elena spoke to you that way and upset you regarding your marriage. Please know that experts must not tell customers to end relationships. Your complaint has been escalated to the Expert Quality team, which reviews the chat transcript within 48 hours, and your case is currently under review.",
+   "short": "We are sorry for this experience. Experts must not tell customers to end relationships. Your complaint has been escalated to the Expert Quality team, which reviews the chat transcript within 48 hours, and your case is currently being reviewed.",
+   "errors": [
+    "gemini-flash-lite: invalid output: 3 validation errors for Draft replies.formal   Input should be a valid dictionary or instance of Reply [type=model_type, input_value='Dear Customer, we sincer...rrently being reviewed.', input_type=str]     For further information visit https://errors.pydantic.dev/2.14/v/model_type replies.empatheti"
+   ],
+   "cost": 0.0038845,
+   "latency_s": 4.36
+  },
+  {
+   "id": "T09",
+   "tags": "privacy",
+   "lang": "en",
+   "expected_articles": [
+    "account-deletion"
+   ],
+   "retrieved": [
+    "account-deletion",
+    "account-deletion",
+    "account-deletion",
+    "edit-birth-data"
+   ],
+   "retrieval_hit": true,
+   "citations_proposed": 3,
+   "citations_verified": 3,
+   "all_tones": true,
+   "short_words": 33,
+   "short_ok": true,
+   "max_tone_similarity": 0.77,
+   "tones_distinct": false,
+   "language_ok": true,
+   "exp_human": true,
+   "act_human": true,
+   "human_ok": true,
+   "human_reasons": [
+    "Personal-data request (GDPR): only the Privacy team can action it.",
+    "Legal or privacy matter: route to Legal & Privacy, agent must not commit to anything."
+   ],
+   "summary": "The customer wants to delete their account and remove all personal data in accordance with GDPR. They are requesting complete account removal.",
+   "formal": "Dear Customer, Thank you for contacting Nebula support. Your request to delete your account and all personal data under GDPR is currently being reviewed. Requests made to support are forwarded to the Privacy team, which completes them within 30 days as required by GDPR.",
+   "empathetic": "Hello, I completely understand you would like to have your account and personal data deleted. Your case is currently being reviewed, and please be assured that our Privacy team completes these requests within 30 days as required by GDPR. We appreciate your patience!",
+   "short": "Your request to delete your account and personal data is currently being reviewed. Requests made to support are forwarded to the Privacy team, which completes them within 30 days as required by GDPR.",
+   "errors": [
+    "gemini-flash-lite: invalid output: 3 validation errors for Draft replies.formal   Input should be a valid dictionary or instance of Reply [type=model_type, input_value='Dear Customer, Thank you...DPR. [account-deletion]', input_type=str]     For further information visit https://errors.pydantic.dev/2.14/v/model_type replies.empatheti"
+   ],
+   "cost": 0.0030853,
+   "latency_s": 3.94
+  },
+  {
+   "id": "T11",
+   "tags": "safety",
+   "lang": "en",
+   "expected_articles": [
+    "reading-disclaimer"
+   ],
+   "retrieved": [
+    "reading-disclaimer",
+    "reading-disclaimer"
+   ],
+   "retrieval_hit": true,
+   "citations_proposed": 0,
+   "citations_verified": 0,
+   "all_tones": false,
+   "short_words": 0,
+   "short_ok": false,
+   "max_tone_similarity": 1.0,
+   "tones_distinct": false,
+   "language_ok": true,
+   "exp_human": true,
+   "act_human": true,
+   "human_ok": true,
+   "human_reasons": [
+    "Possible self-harm or threat of violence: escalate to Trust & Safety, do not send a template.",
+    "The classifier is unsure about this ticket: confirm the category yourself.",
+    "AI drafts unavailable: write the reply manually."
+   ],
+   "summary": "The customer expresses feelings of hopelessness and states they no longer see the point of living, mentioning that the stars say nothing good will happen to them.",
+   "formal": "",
+   "empathetic": "",
+   "short": "",
+   "errors": [
+    "gemini-flash-lite: RateLimitError: Error code: 429 - [{'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 15, model: gemini-3.5-flash-lite, description: Generate content requests per minute limit exceeded on Free Tier. See https://ai.google.dev/gemini-api/docs/rate-limits.\\nPlease retry in 52.210113432s.', 'status': 'RESOURCE_EXHAUSTED', 'details': [{'@type': 'type.googleapis.com/google.rpc.Help', 'links': [{'description': 'Learn more about Gemini API quotas', 'url': 'https://ai.google.dev/gemini-api/docs/rate-limits'}]}, {'@type': 'type.googleapis.com/google.rpc.QuotaFailure', 'violations': [{'description': 'Generate content requests per minute limit exceeded on Free Tier. See https://ai.google.dev/gemini-api/docs/rate-limits.', 'quotaMetric': 'generativelanguage.googleapis.com/generate_content_free_tier_requests', 'quotaId': 'GenerateRequestsPerMinutePerProjectPerModel-FreeTier', 'quotaDimensions': {'location': 'global', 'model': 'gemini-3.5-flash-lite'}, 'quotaValue': '15'}]}, {'@type': 'type.googleapis.com/google.rpc.RetryInfo', 'retryDelay': '52s'}]}}]",
+    "gemini-flash-lite: RateLimitError: Error code: 429 - [{'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 15, model: gemini-3.5-flash-lite, description: Generate content requests per minute limit exceeded on Free Tier. See https://ai.google.dev/gemini-api/docs/rate-limits.\\nPlease retry in 56.846836872s.', 'status': 'RESOURCE_EXHAUSTED', 'details': [{'@type': 'type.googleapis.com/google.rpc.Help', 'links': [{'description': 'Learn more about Gemini API quotas', 'url': 'https://ai.google.dev/gemini-api/docs/rate-limits'}]}, {'@type': 'type.googleapis.com/google.rpc.QuotaFailure', 'violations': [{'description': 'Generate content requests per minute limit exceeded on Free Tier. See https://ai.google.dev/gemini-api/docs/rate-limits.', 'quotaMetric': 'generativelanguage.googleapis.com/generate_content_free_tier_requests', 'quotaId': 'GenerateRequestsPerMinutePerProjectPerModel-FreeTier', 'quotaDimensions': {'location': 'global', 'model': 'gemini-3.5-flash-lite'}, 'quotaValue': '15'}]}, {'@type': 'type.googleapis.com/google.rpc.RetryInfo', 'retryDelay': '56s'}]}}]"
+   ],
+   "cost": 0.0003705,
+   "latency_s": 1.4
+  },
+  {
+   "id": "T18",
+   "tags": "non_english",
+   "lang": "uk",
+   "expected_articles": [
+    "double-charge",
+    "refund-policy"
+   ],
+   "retrieved": [],
+   "retrieval_hit": false,
+   "citations_proposed": 0,
+   "citations_verified": 0,
+   "all_tones": false,
+   "short_words": 0,
+   "short_ok": false,
+   "max_tone_similarity": 1.0,
+   "tones_distinct": false,
+   "language_ok": true,
+   "exp_human": false,
+   "act_human": true,
+   "human_ok": false,
+   "human_reasons": [
+    "The classifier is unsure about this ticket: confirm the category yourself.",
+    "AI could not classify this ticket: triage manually.",
+    "No relevant KB article: the drafts cannot be checked against policy, write the answer yourself.",
+    "AI drafts unavailable: write the reply manually."
+   ],
+   "summary": "Добрий день! Мене двічі списали гроші за підписку, поверніть, будь ласка, зайве списання.",
+   "formal": "",
+   "empathetic": "",
+   "short": "",
+   "errors": [
+    "gemini-flash-lite: RateLimitError: Error code: 429 - [{'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 15, model: gemini-3.5-flash-lite, description: Generate content requests per minute limit exceeded on Free Tier. See https://ai.google.dev/gemini-api/docs/rate-limits.\\nPlease retry in 42.74476339s.', 'status': 'RESOURCE_EXHAUSTED', 'details': [{'@type': 'type.googleapis.com/google.rpc.Help', 'links': [{'description': 'Learn more about Gemini API quotas', 'url': 'https://ai.google.dev/gemini-api/docs/rate-limits'}]}, {'@type': 'type.googleapis.com/google.rpc.QuotaFailure', 'violations': [{'description': 'Generate content requests per minute limit exceeded on Free Tier. See https://ai.google.dev/gemini-api/docs/rate-limits.', 'quotaMetric': 'generativelanguage.googleapis.com/generate_content_free_tier_requests', 'quotaId': 'GenerateRequestsPerMinutePerProjectPerModel-FreeTier', 'quotaDimensions': {'location': 'global', 'model': 'gemini-3.5-flash-lite'}, 'quotaValue': '15'}]}, {'@type': 'type.googleapis.com/google.rpc.RetryInfo', 'retryDelay': '42s'}]}}]",
+    "gemini-flash-lite: RateLimitError: Error code: 429 - [{'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 15, model: gemini-3.5-flash-lite, description: Generate content requests per minute limit exceeded on Free Tier. See https://ai.google.dev/gemini-api/docs/rate-limits.\\nPlease retry in 37.238678926s.', 'status': 'RESOURCE_EXHAUSTED', 'details': [{'@type': 'type.googleapis.com/google.rpc.Help', 'links': [{'description': 'Learn more about Gemini API quotas', 'url': 'https://ai.google.dev/gemini-api/docs/rate-limits'}]}, {'@type': 'type.googleapis.com/google.rpc.QuotaFailure', 'violations': [{'description': 'Generate content requests per minute limit exceeded on Free Tier. See https://ai.google.dev/gemini-api/docs/rate-limits.', 'quotaMetric': 'generativelanguage.googleapis.com/generate_content_free_tier_requests', 'quotaId': 'GenerateRequestsPerMinutePerProjectPerModel-FreeTier', 'quotaDimensions': {'location': 'global', 'model': 'gemini-3.5-flash-lite'}, 'quotaValue': '15'}]}, {'@type': 'type.googleapis.com/google.rpc.RetryInfo', 'retryDelay': '37s'}]}}]",
+    "gemini-flash-lite: RateLimitError: Error code: 429 - [{'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 15, model: gemini-3.5-flash-lite, description: Generate content requests per minute limit exceeded on Free Tier. See https://ai.google.dev/gemini-api/docs/rate-limits.\\nPlease retry in 42.314397498s.', 'status': 'RESOURCE_EXHAUSTED', 'details': [{'@type': 'type.googleapis.com/google.rpc.Help', 'links': [{'description': 'Learn more about Gemini API quotas', 'url': 'https://ai.google.dev/gemini-api/docs/rate-limits'}]}, {'@type': 'type.googleapis.com/google.rpc.QuotaFailure', 'violations': [{'description': 'Generate content requests per minute limit exceeded on Free Tier. See https://ai.google.dev/gemini-api/docs/rate-limits.', 'quotaMetric': 'generativelanguage.googleapis.com/generate_content_free_tier_requests', 'quotaId': 'GenerateRequestsPerMinutePerProjectPerModel-FreeTier', 'quotaDimensions': {'model': 'gemini-3.5-flash-lite', 'location': 'global'}, 'quotaValue': '15'}]}, {'@type': 'type.googleapis.com/google.rpc.RetryInfo', 'retryDelay': '42s'}]}}]"
+   ],
+   "cost": 0.0,
+   "latency_s": 0.0
+  },
+  {
+   "id": "T21",
+   "tags": "non_english",
+   "lang": "es",
+   "expected_articles": [
+    "edit-birth-data"
+   ],
+   "retrieved": [
+    "edit-birth-data",
+    "edit-birth-data",
+    "how-horoscopes-work",
+    "account-security"
+   ],
+   "retrieval_hit": true,
+   "citations_proposed": 6,
+   "citations_verified": 6,
+   "all_tones": true,
+   "short_words": 22,
+   "short_ok": true,
+   "max_tone_similarity": 0.36,
+   "tones_distinct": true,
+   "language_ok": true,
+   "exp_human": false,
+   "act_human": false,
+   "human_ok": true,
+   "human_reasons": [],
+   "summary": "The customer made a mistake during registration and wants to know how to change their birth date in their profile.",
+   "formal": "Estimado usuario, para corregir su fecha de nacimiento, debe seguir los siguientes pasos: Abra su Perfil, seleccione Datos personales y edite la fecha, hora o lugar de nacimiento. Tenga en cuenta que estos datos se pueden cambiar hasta 3 veces por mes para prevenir el abuso de las lecturas gratuitas [edit-birth-data].",
+   "empathetic": "Hola, entiendo perfectamente que haya habido un error al registrarse. No te preocupes, puedes cambiarlo fácilmente yendo a Perfil -> Datos personales y editando tu fecha, hora o lugar de nacimiento. Recuerda que puedes realizar este cambio hasta 3 veces al mes [edit-birth-data]. ¡Esperamos que disfrutes de tus lecturas!",
+   "short": "Para cambiar tu fecha de nacimiento, ve a Perfil > Datos personales y edítala. Puedes cambiarla hasta 3 veces al mes [edit-birth-data].",
+   "errors": [],
+   "cost": 0.0026601,
+   "latency_s": 3.23
+  },
+  {
+   "id": "T22",
+   "tags": "non_english,aggressive",
+   "lang": "de",
+   "expected_articles": [
+    "double-charge",
+    "cancel-web"
+   ],
+   "retrieved": [
+    "double-charge",
+    "double-charge",
+    "double-charge",
+    "refund-policy"
+   ],
+   "retrieval_hit": true,
+   "citations_proposed": 3,
+   "citations_verified": 3,
+   "all_tones": true,
+   "short_words": 26,
+   "short_ok": true,
+   "max_tone_similarity": 0.45,
+   "tones_distinct": true,
+   "language_ok": true,
+   "exp_human": false,
+   "act_human": false,
+   "human_ok": true,
+   "human_reasons": [],
+   "summary": "The customer cancelled their subscription, but money was charged again anyway, and they are accusing the company of fraud. They want to resolve the unexpected charge.",
+   "formal": "Sehr geehrte(r) Kund(in), wir bedauern die unerwartete Belastung nach Ihrer Kündigung sehr. Gemäß unseren Richtlinien erstatten wir die Gebühr, wenn Sie nach einer bestätigten Kündigung belastet wurden. Wir haben dies veranlasst und die Kündigungsbestätigung dem Ticket beigefügt.",
+   "empathetic": "Es tut uns wirklich leid, dass Ihnen trotz Ihrer Kündigung erneut Geld abgebucht wurde – ich kann voll und ganz verstehen, dass Sie das ärgert. Da Sie nach einer bestätigten Kündigung belastet wurden, erstatten wir Ihnen den Betrag selbstverständlich und fügen die Kündigungsbestätigung diesem Ticket bei.",
+   "short": "Es tut uns leid für die Unannehmlichkeiten. Da Sie nach einer bestätigten Kündigung belastet wurden, erstatten wir Ihnen die Gebühr. Die Kündigungsbestätigung wurde diesem Ticket beigefügt.",
+   "errors": [],
+   "cost": 0.0024423,
+   "latency_s": 2.52
+  },
+  {
+   "id": "T23",
+   "tags": "non_english,surzhyk",
+   "lang": "uk",
+   "expected_articles": [
+    "app-crash"
+   ],
+   "retrieved": [
+    "app-crash",
+    "app-crash",
+    "how-horoscopes-work",
+    "edit-birth-data"
+   ],
+   "retrieval_hit": true,
+   "citations_proposed": 3,
+   "citations_verified": 3,
+   "all_tones": true,
+   "short_words": 23,
+   "short_ok": true,
+   "max_tone_similarity": 0.42,
+   "tones_distinct": true,
+   "language_ok": true,
+   "exp_human": false,
+   "act_human": false,
+   "human_ok": true,
+   "human_reasons": [],
+   "summary": "The customer is experiencing a white screen and the birth chart is not loading. They are asking what they should do to fix it.",
+   "formal": "Вітаю! Щоб вирішити проблему з білим екраном під час завантаження натальної карти, будь ласка, оновіть застосунок до останньої версії, перезавантажте телефон та переконайтеся, що на пристрої є принаймні 1 ГБ вільної пам'яті. Якщо проблема не зникає, для Android очистьте кеш, а для iOS переустановіть застосунок (джерело: app-crash).",
+   "empathetic": "Привіт! Мені дуже прикро, що ви зіткнулися з цією проблемою. Давайте спробуємо це виправити: оновіть застосунок до найновішої версії, перезавантажте телефон і перевірте, чи є у вас мінімум 1 ГБ вільного місця. Зазвичай білий екран при відкритті натальної карти зникає, якщо очистити кеш (для Android) або переустановити застосунок (для iOS). Сподіваюся, це допоможе!",
+   "short": "Оновіть застосунок, перезавантажте телефон та перевірте наявність 1 ГБ вільної пам'яті. Для натальної карти очистьте кеш (Android) або переустановіть застосунок (iOS) (джерело: app-crash).",
+   "errors": [],
+   "cost": 0.0028497,
+   "latency_s": 3.27
+  },
+  {
+   "id": "T24",
+   "tags": "sarcasm",
+   "lang": "en",
+   "expected_articles": [
+    "how-horoscopes-work"
+   ],
+   "retrieved": [
+    "how-horoscopes-work",
+    "how-horoscopes-work",
+    "refund-policy",
+    "refund-policy"
+   ],
+   "retrieval_hit": true,
+   "citations_proposed": 6,
+   "citations_verified": 6,
+   "all_tones": true,
+   "short_words": 36,
+   "short_ok": true,
+   "max_tone_similarity": 0.47,
+   "tones_distinct": true,
+   "language_ok": true,
+   "exp_human": false,
+   "act_human": false,
+   "human_ok": true,
+   "human_reasons": [],
+   "summary": "The customer is unhappy because they received a generic, duplicate personal reading that their friend also received. They are complaining about the quality of the content.",
+   "formal": "Dear Customer, we sincerely apologize that you received a duplicate reading. Paid personal readings are written for the customer's chart, and if two customers received identical paid readings, it is a content error that qualifies you for a refund [how-horoscopes-work]. Approved refunds are returned to the original payment method and typically appear in your bank within 5–10 business days [refund-policy]. We have processed your refund request accordingly.",
+   "empathetic": "We are so sorry to hear that your personal reading was identical to your friend's—that is definitely not the unique experience we want you to have. Since paid personal readings are supposed to be written specifically for your chart, receiving identical content is a content error, and you are fully eligible for a refund [how-horoscopes-work]. We are processing this for you now, and the funds will return to your original payment method within 5–10 business days [refund-policy]. Thank you for letting us know.",
+   "short": "We apologize for the duplicate reading. Identical paid readings are considered a content error, making you eligible for a refund [how-horoscopes-work]. Your refund will be sent to your original payment method within 5–10 business days [refund-policy].",
+   "errors": [],
+   "cost": 0.0032279,
+   "latency_s": 3.15
+  },
+  {
+   "id": "T30",
+   "tags": "expert_misconduct",
+   "lang": "en",
+   "expected_articles": [
+    "expert-conduct"
+   ],
+   "retrieved": [
+    "expert-conduct",
+    "expert-conduct",
+    "expert-chat-billing",
+    "expert-chat-billing"
+   ],
+   "retrieval_hit": true,
+   "citations_proposed": 6,
+   "citations_verified": 6,
+   "all_tones": true,
+   "short_words": 58,
+   "short_ok": true,
+   "max_tone_similarity": 0.62,
+   "tones_distinct": false,
+   "language_ok": true,
+   "exp_human": true,
+   "act_human": true,
+   "human_ok": true,
+   "human_reasons": [
+    "Possible expert misconduct: Expert Quality reviews the transcript, do not promise an outcome."
+   ],
+   "summary": "An expert from the app asked for the customer's personal Instagram and is messaging them privately, which the customer finds creepy and inappropriate.",
+   "formal": "Dear Customer, thank you for bringing this matter to our attention. We take reports of inappropriate behavior very seriously, as \"Experts must not ask customers for personal contacts, social media accounts or off-platform payments\" [expert-conduct]. Your case has been escalated for review; please note that \"Complaints about expert behaviour are escalated to the Expert Quality team, which reviews the chat transcript within 48 hours\" and we cannot promise any specific outcome prior to this review [expert-conduct].",
+   "empathetic": "I am so sorry to hear that you experienced this, as it is completely unacceptable for an expert to reach out to you in that way. Please know that \"Experts must not ask customers for personal contacts, social media accounts or off-platform payments\" [expert-conduct]. We are looking into this right away; \"Complaints about expert behaviour are escalated to the Expert Quality team, which reviews the chat transcript within 48 hours\" and while we cannot promise a specific outcome ahead of the review, we are taking your report very seriously [expert-conduct].",
+   "short": "We are sorry you experienced this. Since \"Experts must not ask customers for personal contacts, social media accounts or off-platform payments,\" we take this very seriously [expert-conduct]. \"Complaints about expert behaviour are escalated to the Expert Quality team, which reviews the chat transcript within 48 hours,\" and we cannot promise an outcome before that review is complete [expert-conduct].",
+   "errors": [],
+   "cost": 0.0031722,
+   "latency_s": 4.0
+  },
+  {
+   "id": "T40",
+   "tags": "minor,high_amount",
+   "lang": "en",
+   "expected_articles": [
+    "minor-purchases"
+   ],
+   "retrieved": [
+    "minor-purchases",
+    "refund-policy",
+    "refund-policy",
+    "refund-policy"
+   ],
+   "retrieval_hit": true,
+   "citations_proposed": 0,
+   "citations_verified": 0,
+   "all_tones": false,
+   "short_words": 0,
+   "short_ok": false,
+   "max_tone_similarity": 1.0,
+   "tones_distinct": false,
+   "language_ok": true,
+   "exp_human": true,
+   "act_human": true,
+   "human_ok": true,
+   "human_reasons": [
+    "Amount above $100: refund requires Billing specialist approval.",
+    "A minor is involved: refunds are reviewed case by case by Billing.",
+    "AI drafts unavailable: write the reply manually."
+   ],
+   "summary": "The customer's minor daughter used their credit card to make a $150 purchase inside the app without permission. The customer wants a refund for this unauthorized transaction.",
+   "formal": "",
+   "empathetic": "",
+   "short": "",
+   "errors": [
+    "gemini-flash-lite: RateLimitError: Error code: 429 - [{'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 15, model: gemini-3.5-flash-lite, description: Generate content requests per minute limit exceeded on Free Tier. See https://ai.google.dev/gemini-api/docs/rate-limits.\\nPlease retry in 44.905375758s.', 'status': 'RESOURCE_EXHAUSTED', 'details': [{'@type': 'type.googleapis.com/google.rpc.Help', 'links': [{'description': 'Learn more about Gemini API quotas', 'url': 'https://ai.google.dev/gemini-api/docs/rate-limits'}]}, {'@type': 'type.googleapis.com/google.rpc.QuotaFailure', 'violations': [{'description': 'Generate content requests per minute limit exceeded on Free Tier. See https://ai.google.dev/gemini-api/docs/rate-limits.', 'quotaMetric': 'generativelanguage.googleapis.com/generate_content_free_tier_requests', 'quotaId': 'GenerateRequestsPerMinutePerProjectPerModel-FreeTier', 'quotaDimensions': {'location': 'global', 'model': 'gemini-3.5-flash-lite'}, 'quotaValue': '15'}]}, {'@type': 'type.googleapis.com/google.rpc.RetryInfo', 'retryDelay': '44s'}]}}]"
+   ],
+   "cost": 0.0011685,
+   "latency_s": 0.92
+  },
+  {
+   "id": "T08",
+   "tags": "baseline",
+   "lang": "en",
+   "expected_articles": [],
+   "retrieved": [
+    "cancel-ios",
+    "refund-policy"
+   ],
+   "retrieval_hit": false,
+   "citations_proposed": 0,
+   "citations_verified": 0,
+   "all_tones": true,
+   "short_words": 19,
+   "short_ok": true,
+   "max_tone_similarity": 0.83,
+   "tones_distinct": false,
+   "language_ok": true,
+   "exp_human": true,
+   "act_human": false,
+   "human_ok": false,
+   "human_reasons": [],
+   "summary": "The customer is suggesting the addition of a dark mode feature to the Nebula app.",
+   "formal": "Thank you for your feedback regarding the Nebula app. We appreciate your suggestion for a dark mode feature.",
+   "empathetic": "Thank you for reaching out with your suggestion! We completely understand how a dark mode feature would be a great addition to the Nebula app, and we appreciate you sharing your idea with us.",
+   "short": "Thank you for your feedback! We appreciate your suggestion to add a dark mode feature to the Nebula app.",
+   "errors": [],
+   "cost": 0.0016032,
+   "latency_s": 8.37
+  }
+ ]
+}

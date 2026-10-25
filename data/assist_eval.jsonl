@@ -1,0 +1,14 @@
+{"ticket_id": "T01", "expected_articles": ["double-charge"], "expected_human_required": false}
+{"ticket_id": "T03", "expected_articles": ["trial-terms", "refund-policy"], "expected_human_required": false}
+{"ticket_id": "T05", "expected_articles": ["login-magic-link"], "expected_human_required": false}
+{"ticket_id": "T06", "expected_articles": ["expert-conduct"], "expected_human_required": true}
+{"ticket_id": "T09", "expected_articles": ["account-deletion"], "expected_human_required": true}
+{"ticket_id": "T11", "expected_articles": ["reading-disclaimer"], "expected_human_required": true}
+{"ticket_id": "T18", "expected_articles": ["double-charge", "refund-policy"], "expected_human_required": false}
+{"ticket_id": "T21", "expected_articles": ["edit-birth-data"], "expected_human_required": false}
+{"ticket_id": "T22", "expected_articles": ["double-charge", "cancel-web"], "expected_human_required": false}
+{"ticket_id": "T23", "expected_articles": ["app-crash"], "expected_human_required": false}
+{"ticket_id": "T24", "expected_articles": ["how-horoscopes-work"], "expected_human_required": false}
+{"ticket_id": "T30", "expected_articles": ["expert-conduct"], "expected_human_required": true}
+{"ticket_id": "T40", "expected_articles": ["minor-purchases"], "expected_human_required": true}
+{"ticket_id": "T08", "expected_articles": [], "expected_human_required": true}

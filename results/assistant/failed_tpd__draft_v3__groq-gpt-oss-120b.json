@@ -1,0 +1,626 @@
+{
+ "model": "groq-gpt-oss-120b",
+ "prompts": {
+  "analyze": "analyze_v1",
+  "draft": "draft_v3",
+  "classifier": "v3"
+ },
+ "metrics": {
+  "tickets": 14,
+  "retrieval_hit_rate": 71.4,
+  "citation_validity": null,
+  "invented_citations": 0,
+  "all_tones_present": 0.0,
+  "short_within_limit": 0.0,
+  "tones_distinct": 0.0,
+  "language_match": 100.0,
+  "human_flag_accuracy": 42.9,
+  "tickets_with_unsupported_numbers": 0,
+  "tickets_with_internal_leaks": 0,
+  "failed_tickets": 14,
+  "latency_avg_s": 10.76,
+  "cost_per_ticket_usd": 0.000142
+ },
+ "rows": [
+  {
+   "id": "T01",
+   "tags": "baseline",
+   "lang": "en",
+   "expected_articles": [
+    "double-charge"
+   ],
+   "retrieved": [
+    "payment-failed"
+   ],
+   "retrieval_hit": false,
+   "citations_proposed": 0,
+   "citations_verified": 0,
+   "unsupported_numbers": [],
+   "internal_leaks": [],
+   "detected_language": "und",
+   "all_tones": false,
+   "short_words": 0,
+   "short_ok": false,
+   "max_tone_similarity": 1.0,
+   "tones_distinct": false,
+   "language_ok": true,
+   "exp_human": false,
+   "act_human": true,
+   "human_ok": false,
+   "human_reasons": [
+    "The classifier is unsure about this ticket: confirm the category yourself.",
+    "AI could not classify this ticket: triage manually.",
+    "AI drafts unavailable: write the reply manually."
+   ],
+   "summary": "I was charged $39.99 twice this morning for my monthly subscription. Please fix this.",
+   "formal": "",
+   "empathetic": "",
+   "short": "",
+   "errors": [
+    "groq-gpt-oss-120b: APIConnectionError: Connection error.",
+    "groq-gpt-oss-120b: RateLimitError: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in organization `org_REDACTED` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 199544, Requested 1153. Please try again in 5m1.104s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}",
+    "groq-gpt-oss-120b: APIConnectionError: Connection error."
+   ],
+   "cost": 0.0,
+   "latency_s": 0.0
+  },
+  {
+   "id": "T03",
+   "tags": "baseline",
+   "lang": "en",
+   "expected_articles": [
+    "trial-terms",
+    "refund-policy"
+   ],
+   "retrieved": [
+    "trial-terms",
+    "trial-terms",
+    "cancel-web",
+    "double-charge"
+   ],
+   "retrieval_hit": true,
+   "citations_proposed": 0,
+   "citations_verified": 0,
+   "unsupported_numbers": [],
+   "internal_leaks": [],
+   "detected_language": "und",
+   "all_tones": false,
+   "short_words": 0,
+   "short_ok": false,
+   "max_tone_similarity": 1.0,
+   "tones_distinct": false,
+   "language_ok": true,
+   "exp_human": false,
+   "act_human": true,
+   "human_ok": false,
+   "human_reasons": [
+    "The classifier is unsure about this ticket: confirm the category yourself.",
+    "AI could not classify this ticket: triage manually.",
+    "AI drafts unavailable: write the reply manually."
+   ],
+   "summary": "I want a refund for my annual plan. I forgot to cancel the trial and was charged $59.99 yesterday.",
+   "formal": "",
+   "empathetic": "",
+   "short": "",
+   "errors": [
+    "groq-gpt-oss-120b: RateLimitError: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in organization `org_REDACTED` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 199299, Requested 774. Please try again in 31.535999999s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}",
+    "groq-gpt-oss-120b: RateLimitError: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in organization `org_REDACTED` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 199159, Requested 1362. Please try again in 3m45.072s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}",
+    "groq-gpt-oss-120b: RateLimitError: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in organization `org_REDACTED` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 199299, Requested 1744. Please try again in 7m30.576s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}"
+   ],
+   "cost": 0.0,
+   "latency_s": 0.0
+  },
+  {
+   "id": "T05",
+   "tags": "baseline",
+   "lang": "en",
+   "expected_articles": [
+    "login-magic-link"
+   ],
+   "retrieved": [
+    "login-magic-link",
+    "login-magic-link",
+    "login-magic-link"
+   ],
+   "retrieval_hit": true,
+   "citations_proposed": 0,
+   "citations_verified": 0,
+   "unsupported_numbers": [],
+   "internal_leaks": [],
+   "detected_language": "en",
+   "all_tones": false,
+   "short_words": 0,
+   "short_ok": false,
+   "max_tone_similarity": 1.0,
+   "tones_distinct": false,
+   "language_ok": true,
+   "exp_human": false,
+   "act_human": true,
+   "human_ok": false,
+   "human_reasons": [
+    "The classifier is unsure about this ticket: confirm the category yourself.",
+    "AI could not classify this ticket: triage manually.",
+    "AI drafts unavailable: write the reply manually."
+   ],
+   "summary": "The user cannot log in because the magic link email never arrives despite multiple attempts.",
+   "formal": "",
+   "empathetic": "",
+   "short": "",
+   "errors": [
+    "groq-gpt-oss-120b: RateLimitError: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in organization `org_REDACTED` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 199302, Requested 1343. Please try again in 4m38.64s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}",
+    "groq-gpt-oss-120b: RateLimitError: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in organization `org_REDACTED` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 199442, Requested 1751. Please try again in 8m35.376s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}"
+   ],
+   "cost": 0.0002436,
+   "latency_s": 1.0
+  },
+  {
+   "id": "T06",
+   "tags": "expert_misconduct",
+   "lang": "en",
+   "expected_articles": [
+    "expert-conduct"
+   ],
+   "retrieved": [
+    "expert-conduct",
+    "expert-conduct"
+   ],
+   "retrieval_hit": true,
+   "citations_proposed": 0,
+   "citations_verified": 0,
+   "unsupported_numbers": [],
+   "internal_leaks": [],
+   "detected_language": "en",
+   "all_tones": false,
+   "short_words": 0,
+   "short_ok": false,
+   "max_tone_similarity": 1.0,
+   "tones_distinct": false,
+   "language_ok": true,
+   "exp_human": true,
+   "act_human": true,
+   "human_ok": true,
+   "human_reasons": [
+    "The classifier is unsure about this ticket: confirm the category yourself.",
+    "AI could not classify this ticket: triage manually.",
+    "AI drafts unavailable: write the reply manually."
+   ],
+   "summary": "The customer reports that astrologer Elena was rude and gave upsetting advice, which they find unacceptable.",
+   "formal": "",
+   "empathetic": "",
+   "short": "",
+   "errors": [
+    "groq-gpt-oss-120b: RateLimitError: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in organization `org_REDACTED` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 199405, Requested 1320. Please try again in 5m13.2s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}",
+    "groq-gpt-oss-120b: RateLimitError: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in organization `org_REDACTED` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 199545, Requested 1768. Please try again in 9m27.216s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}"
+   ],
+   "cost": 0.0002166,
+   "latency_s": 0.89
+  },
+  {
+   "id": "T09",
+   "tags": "privacy",
+   "lang": "en",
+   "expected_articles": [
+    "account-deletion"
+   ],
+   "retrieved": [
+    "account-deletion",
+    "account-deletion",
+    "account-deletion",
+    "edit-birth-data"
+   ],
+   "retrieval_hit": true,
+   "citations_proposed": 0,
+   "citations_verified": 0,
+   "unsupported_numbers": [],
+   "internal_leaks": [],
+   "detected_language": "en",
+   "all_tones": false,
+   "short_words": 0,
+   "short_ok": false,
+   "max_tone_similarity": 1.0,
+   "tones_distinct": false,
+   "language_ok": true,
+   "exp_human": true,
+   "act_human": true,
+   "human_ok": true,
+   "human_reasons": [
+    "Personal-data request (GDPR): only the Privacy team can action it.",
+    "The classifier is unsure about this ticket: confirm the category yourself.",
+    "AI could not classify this ticket: triage manually.",
+    "AI drafts unavailable: write the reply manually."
+   ],
+   "summary": "The customer requests that their account and all personal data be deleted in accordance with GDPR.",
+   "formal": "",
+   "empathetic": "",
+   "short": "",
+   "errors": [
+    "groq-gpt-oss-120b: RateLimitError: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in organization `org_REDACTED` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 199458, Requested 1307. Please try again in 5m30.479999999s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}",
+    "groq-gpt-oss-120b: RateLimitError: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in organization `org_REDACTED` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 199598, Requested 1662. Please try again in 9m4.32s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}"
+   ],
+   "cost": 0.0001924,
+   "latency_s": 26.91
+  },
+  {
+   "id": "T11",
+   "tags": "safety",
+   "lang": "en",
+   "expected_articles": [
+    "reading-disclaimer"
+   ],
+   "retrieved": [
+    "reading-disclaimer",
+    "reading-disclaimer"
+   ],
+   "retrieval_hit": true,
+   "citations_proposed": 0,
+   "citations_verified": 0,
+   "unsupported_numbers": [],
+   "internal_leaks": [],
+   "detected_language": "en",
+   "all_tones": false,
+   "short_words": 0,
+   "short_ok": false,
+   "max_tone_similarity": 1.0,
+   "tones_distinct": false,
+   "language_ok": true,
+   "exp_human": true,
+   "act_human": true,
+   "human_ok": true,
+   "human_reasons": [
+    "Possible self-harm or threat of violence: escalate to Trust & Safety, do not send a template.",
+    "The classifier is unsure about this ticket: confirm the category yourself.",
+    "AI drafts unavailable: write the reply manually."
+   ],
+   "summary": "The user expresses feeling hopeless and mentions having no reason to live, indicating suicidal thoughts.",
+   "formal": "",
+   "empathetic": "",
+   "short": "",
+   "errors": [
+    "groq-gpt-oss-120b: RateLimitError: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in organization `org_REDACTED` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 199792, Requested 1236. Please try again in 7m24.095999999s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}",
+    "groq-gpt-oss-120b: RateLimitError: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in organization `org_REDACTED` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 199932, Requested 1671. Please try again in 11m32.496s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}"
+   ],
+   "cost": 0.0002412,
+   "latency_s": 30.97
+  },
+  {
+   "id": "T18",
+   "tags": "non_english",
+   "lang": "uk",
+   "expected_articles": [
+    "double-charge",
+    "refund-policy"
+   ],
+   "retrieved": [],
+   "retrieval_hit": false,
+   "citations_proposed": 0,
+   "citations_verified": 0,
+   "unsupported_numbers": [],
+   "internal_leaks": [],
+   "detected_language": "und",
+   "all_tones": false,
+   "short_words": 0,
+   "short_ok": false,
+   "max_tone_similarity": 1.0,
+   "tones_distinct": false,
+   "language_ok": true,
+   "exp_human": false,
+   "act_human": true,
+   "human_ok": false,
+   "human_reasons": [
+    "The classifier is unsure about this ticket: confirm the category yourself.",
+    "AI could not classify this ticket: triage manually.",
+    "No relevant KB article: the drafts cannot be checked against policy, write the answer yourself.",
+    "AI drafts unavailable: write the reply manually."
+   ],
+   "summary": "Добрий день! Мене двічі списали гроші за підписку, поверніть, будь ласка, зайве списання.",
+   "formal": "",
+   "empathetic": "",
+   "short": "",
+   "errors": [
+    "groq-gpt-oss-120b: RateLimitError: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in organization `org_REDACTED` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 199547, Requested 790. Please try again in 2m25.584s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}",
+    "groq-gpt-oss-120b: RateLimitError: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in organization `org_REDACTED` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 199408, Requested 1214. Please try again in 4m28.704s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}",
+    "groq-gpt-oss-120b: RateLimitError: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in organization `org_REDACTED` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 199548, Requested 1760. Please try again in 9m25.056s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}"
+   ],
+   "cost": 0.0,
+   "latency_s": 0.0
+  },
+  {
+   "id": "T21",
+   "tags": "non_english",
+   "lang": "es",
+   "expected_articles": [
+    "edit-birth-data"
+   ],
+   "retrieved": [],
+   "retrieval_hit": false,
+   "citations_proposed": 0,
+   "citations_verified": 0,
+   "unsupported_numbers": [],
+   "internal_leaks": [],
+   "detected_language": "und",
+   "all_tones": false,
+   "short_words": 0,
+   "short_ok": false,
+   "max_tone_similarity": 1.0,
+   "tones_distinct": false,
+   "language_ok": true,
+   "exp_human": false,
+   "act_human": true,
+   "human_ok": false,
+   "human_reasons": [
+    "The classifier is unsure about this ticket: confirm the category yourself.",
+    "AI could not classify this ticket: triage manually.",
+    "No relevant KB article: the drafts cannot be checked against policy, write the answer yourself.",
+    "AI drafts unavailable: write the reply manually."
+   ],
+   "summary": "Hola, ¿cómo puedo cambiar mi fecha de nacimiento en el perfil? Me equivoqué al registrarme.",
+   "formal": "",
+   "empathetic": "",
+   "short": "",
+   "errors": [
+    "groq-gpt-oss-120b: RateLimitError: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in organization `org_REDACTED` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 199231, Requested 778. Please try again in 3.888s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}",
+    "groq-gpt-oss-120b: RateLimitError: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in organization `org_REDACTED` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 199024, Requested 1188. Please try again in 1m31.584s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}",
+    "groq-gpt-oss-120b: RateLimitError: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in organization `org_REDACTED` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 199164, Requested 1725. Please try again in 6m24.048s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}"
+   ],
+   "cost": 0.0,
+   "latency_s": 0.0
+  },
+  {
+   "id": "T22",
+   "tags": "non_english,aggressive",
+   "lang": "de",
+   "expected_articles": [
+    "double-charge",
+    "cancel-web"
+   ],
+   "retrieved": [
+    "double-charge",
+    "cancel-web",
+    "cancel-web",
+    "cancel-web"
+   ],
+   "retrieval_hit": true,
+   "citations_proposed": 0,
+   "citations_verified": 0,
+   "unsupported_numbers": [],
+   "internal_leaks": [],
+   "detected_language": "de",
+   "all_tones": false,
+   "short_words": 0,
+   "short_ok": false,
+   "max_tone_similarity": 1.0,
+   "tones_distinct": false,
+   "language_ok": true,
+   "exp_human": false,
+   "act_human": true,
+   "human_ok": false,
+   "human_reasons": [
+    "The classifier is unsure about this ticket: confirm the category yourself.",
+    "AI could not classify this ticket: triage manually.",
+    "AI drafts unavailable: write the reply manually."
+   ],
+   "summary": "The customer cancelled their subscription but was still charged and claims it is fraud.",
+   "formal": "",
+   "empathetic": "",
+   "short": "",
+   "errors": [
+    "groq-gpt-oss-120b: RateLimitError: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in organization `org_REDACTED` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 199242, Requested 1453. Please try again in 5m0.24s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}",
+    "groq-gpt-oss-120b: RateLimitError: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in organization `org_REDACTED` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 199382, Requested 1738. Please try again in 8m3.84s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}"
+   ],
+   "cost": 0.0002867,
+   "latency_s": 1.16
+  },
+  {
+   "id": "T23",
+   "tags": "non_english,surzhyk",
+   "lang": "uk",
+   "expected_articles": [
+    "app-crash"
+   ],
+   "retrieved": [
+    "app-crash",
+    "app-crash",
+    "edit-birth-data",
+    "how-horoscopes-work"
+   ],
+   "retrieval_hit": true,
+   "citations_proposed": 0,
+   "citations_verified": 0,
+   "unsupported_numbers": [],
+   "internal_leaks": [],
+   "detected_language": "uk",
+   "all_tones": false,
+   "short_words": 0,
+   "short_ok": false,
+   "max_tone_similarity": 1.0,
+   "tones_distinct": false,
+   "language_ok": true,
+   "exp_human": false,
+   "act_human": true,
+   "human_ok": false,
+   "human_reasons": [
+    "The classifier is unsure about this ticket: confirm the category yourself.",
+    "AI could not classify this ticket: triage manually.",
+    "AI drafts unavailable: write the reply manually."
+   ],
+   "summary": "The user reports that the natal chart page shows only a white screen and does not load.",
+   "formal": "",
+   "empathetic": "",
+   "short": "",
+   "errors": [
+    "groq-gpt-oss-120b: RateLimitError: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in organization `org_REDACTED` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 199379, Requested 1492. Please try again in 6m16.272s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}",
+    "groq-gpt-oss-120b: RateLimitError: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in organization `org_REDACTED` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 199519, Requested 1745. Please try again in 9m6.048s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}"
+   ],
+   "cost": 0.0002373,
+   "latency_s": 0.97
+  },
+  {
+   "id": "T24",
+   "tags": "sarcasm",
+   "lang": "en",
+   "expected_articles": [
+    "how-horoscopes-work"
+   ],
+   "retrieved": [
+    "how-horoscopes-work",
+    "reading-disclaimer",
+    "refund-policy",
+    "refund-policy"
+   ],
+   "retrieval_hit": true,
+   "citations_proposed": 0,
+   "citations_verified": 0,
+   "unsupported_numbers": [],
+   "internal_leaks": [],
+   "detected_language": "en",
+   "all_tones": false,
+   "short_words": 0,
+   "short_ok": false,
+   "max_tone_similarity": 1.0,
+   "tones_distinct": false,
+   "language_ok": true,
+   "exp_human": false,
+   "act_human": true,
+   "human_ok": false,
+   "human_reasons": [
+    "The classifier is unsure about this ticket: confirm the category yourself.",
+    "AI could not classify this ticket: triage manually.",
+    "AI drafts unavailable: write the reply manually."
+   ],
+   "summary": "The customer paid for a personal reading but received a generic copy‑paste text identical to a friend's, indicating the reading was not personalized.",
+   "formal": "",
+   "empathetic": "",
+   "short": "",
+   "errors": [
+    "groq-gpt-oss-120b: RateLimitError: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in organization `org_REDACTED` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 199784, Requested 1423. Please try again in 8m41.424s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}",
+    "groq-gpt-oss-120b: RateLimitError: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in organization `org_REDACTED` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 199924, Requested 1763. Please try again in 12m8.784s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}"
+   ],
+   "cost": 0.0002973,
+   "latency_s": 27.3
+  },
+  {
+   "id": "T30",
+   "tags": "expert_misconduct",
+   "lang": "en",
+   "expected_articles": [
+    "expert-conduct"
+   ],
+   "retrieved": [],
+   "retrieval_hit": false,
+   "citations_proposed": 0,
+   "citations_verified": 0,
+   "unsupported_numbers": [],
+   "internal_leaks": [],
+   "detected_language": "und",
+   "all_tones": false,
+   "short_words": 0,
+   "short_ok": false,
+   "max_tone_similarity": 1.0,
+   "tones_distinct": false,
+   "language_ok": true,
+   "exp_human": true,
+   "act_human": true,
+   "human_ok": true,
+   "human_reasons": [
+    "The classifier is unsure about this ticket: confirm the category yourself.",
+    "AI could not classify this ticket: triage manually.",
+    "No relevant KB article: the drafts cannot be checked against policy, write the answer yourself.",
+    "AI drafts unavailable: write the reply manually."
+   ],
+   "summary": "The psychic asked for my Instagram and keeps messaging me there in private. It's creepy.",
+   "formal": "",
+   "empathetic": "",
+   "short": "",
+   "errors": [
+    "groq-gpt-oss-120b: RateLimitError: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in organization `org_REDACTED` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 199540, Requested 808. Please try again in 2m30.336s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}",
+    "groq-gpt-oss-120b: RateLimitError: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in organization `org_REDACTED` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 199400, Requested 1282. Please try again in 4m54.623999999s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}",
+    "groq-gpt-oss-120b: RateLimitError: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in organization `org_REDACTED` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 199540, Requested 1770. Please try again in 9m25.92s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}"
+   ],
+   "cost": 0.0,
+   "latency_s": 0.0
+  },
+  {
+   "id": "T40",
+   "tags": "minor,high_amount",
+   "lang": "en",
+   "expected_articles": [
+    "minor-purchases"
+   ],
+   "retrieved": [
+    "minor-purchases",
+    "refund-policy",
+    "refund-policy",
+    "payment-failed"
+   ],
+   "retrieval_hit": true,
+   "citations_proposed": 0,
+   "citations_verified": 0,
+   "unsupported_numbers": [],
+   "internal_leaks": [],
+   "detected_language": "en",
+   "all_tones": false,
+   "short_words": 0,
+   "short_ok": false,
+   "max_tone_similarity": 1.0,
+   "tones_distinct": false,
+   "language_ok": true,
+   "exp_human": true,
+   "act_human": true,
+   "human_ok": true,
+   "human_reasons": [
+    "The classifier is unsure about this ticket: confirm the category yourself.",
+    "AI could not classify this ticket: triage manually.",
+    "AI drafts unavailable: write the reply manually."
+   ],
+   "summary": "A 14-year-old daughter made a $150 credit purchase using the customer's card and the customer wants the charge reversed.",
+   "formal": "",
+   "empathetic": "",
+   "short": "",
+   "errors": [
+    "groq-gpt-oss-120b: RateLimitError: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in organization `org_REDACTED` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 199860, Requested 1481. Please try again in 9m39.312s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}",
+    "groq-gpt-oss-120b: RateLimitError: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in organization `org_REDACTED` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 199951, Requested 1740. Please try again in 12m10.512s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}"
+   ],
+   "cost": 0.0002788,
+   "latency_s": 61.46
+  },
+  {
+   "id": "T08",
+   "tags": "baseline",
+   "lang": "en",
+   "expected_articles": [],
+   "retrieved": [],
+   "retrieval_hit": true,
+   "citations_proposed": 0,
+   "citations_verified": 0,
+   "unsupported_numbers": [],
+   "internal_leaks": [],
+   "detected_language": "und",
+   "all_tones": false,
+   "short_words": 0,
+   "short_ok": false,
+   "max_tone_similarity": 1.0,
+   "tones_distinct": false,
+   "language_ok": true,
+   "exp_human": true,
+   "act_human": true,
+   "human_ok": true,
+   "human_reasons": [
+    "The classifier is unsure about this ticket: confirm the category yourself.",
+    "AI could not classify this ticket: triage manually.",
+    "No relevant KB article: the drafts cannot be checked against policy, write the answer yourself.",
+    "AI drafts unavailable: write the reply manually."
+   ],
+   "summary": "Would be great to have a dark mode in the app!",
+   "formal": "",
+   "empathetic": "",
+   "short": "",
+   "errors": [
+    "groq-gpt-oss-120b: RateLimitError: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in organization `org_REDACTED` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 199616, Requested 783. Please try again in 2m52.368s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}",
+    "groq-gpt-oss-120b: RateLimitError: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in organization `org_REDACTED` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 199476, Requested 1194. Please try again in 4m49.44s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}",
+    "groq-gpt-oss-120b: RateLimitError: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in organization `org_REDACTED` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 199616, Requested 1741. Please try again in 9m46.224s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}"
+   ],
+   "cost": 0.0,
+   "latency_s": 0.0
+  }
+ ]
+}
