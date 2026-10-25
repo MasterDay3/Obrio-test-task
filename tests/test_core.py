@@ -113,3 +113,43 @@ def test_cache_ttl_expiry(tmp_path):
     cache = Cache(tmp_path / "c.sqlite", ttl_s=-1)
     cache.set("k", {"a": 1})
     assert cache.get("k") is None
+
+
+def test_cached_input_tokens_are_priced_at_cache_rate():
+    spec = ModelSpec("m", "fake", "m", input_per_mtok=1.0, output_per_mtok=2.0, cached_input_per_mtok=0.5)
+    assert spec.cost(1_000_000, 0, cached_tokens=400_000) == pytest.approx(0.6 + 0.2)
+    plain = ModelSpec("m", "fake", "m", input_per_mtok=1.0, output_per_mtok=2.0)
+    assert plain.cost(1_000_000, 0, cached_tokens=400_000) == pytest.approx(1.0)
+
+
+def test_extra_params_are_sent_in_extra_body():
+    sdk = FakeSDK(ok('{"label":"a"}'))
+    spec = ModelSpec("m", "fake", "m", 1.0, 1.0, extra_params=(("reasoning_effort", "low"),))
+    LLMClient(spec, sdk, sleep=lambda s: None).complete([])
+    assert sdk.calls[0]["extra_body"] == {"reasoning_effort": "low"}
+
+
+def test_empty_choices_raise_llm_error_so_chain_moves_on():
+    empty = SimpleNamespace(choices=[], usage=None)
+    up = FakeSDK(ok('{"label":"b"}'))
+    result = structured_call([client("a", FakeSDK(empty)), client("b", up)], [], Out)
+    assert result.model_alias == "b" and "empty response" in result.errors[0]
+
+
+def test_daily_quota_429_is_not_retried():
+    quota = openai.RateLimitError("You exceeded your current quota, please check your plan",
+                                  response=httpx2.Response(429, request=REQ), body=None)
+    sdk = FakeSDK(quota)
+    with pytest.raises(LLMError):
+        client("m", sdk).complete([])
+    assert len(sdk.calls) == 1
+
+
+def test_groq_tokens_per_day_429_is_not_retried():
+    tpd = openai.RateLimitError("Rate limit reached for model on tokens per day (TPD): Limit 200000",
+                                response=httpx2.Response(429, request=REQ, headers={"retry-after": "313"}), body=None)
+    sdk = FakeSDK(tpd)
+    with pytest.raises(LLMError):
+        client("m", sdk).complete([])
+    assert len(sdk.calls) == 1
+

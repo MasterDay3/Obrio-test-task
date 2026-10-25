@@ -1,7 +1,8 @@
 # Model registry. All providers are reached through their OpenAI-compatible endpoints.
 # Prices are USD per 1M tokens, paid tier, standard (non-batch). Output prices include thinking tokens.
 # Gemini: https://ai.google.dev/gemini-api/docs/pricing (checked 2026-10-25; 3.8 Flash doubles on 2027-01-01).
-# Groq:   https://console.groq.com/docs/models (checked 2026-10-25).
+# Groq:   https://console.groq.com/docs/models (checked 2026-10-25). Groq prompt caching is automatic,
+#         50% off cached input tokens (https://console.groq.com/docs/prompt-caching).
 # Ollama runs locally, so its marginal API cost is 0.
 
 providers:
@@ -37,11 +38,20 @@ models:
     model: openai/gpt-oss-120b
     input_per_mtok: 0.15
     output_per_mtok: 0.60
+    cached_input_per_mtok: 0.075
+  groq-gpt-oss-120b-low:  # same model, less reasoning: cost/quality experiment
+    provider: groq
+    model: openai/gpt-oss-120b
+    input_per_mtok: 0.15
+    output_per_mtok: 0.60
+    cached_input_per_mtok: 0.075
+    extra_params: {reasoning_effort: low}
   groq-gpt-oss-20b:
     provider: groq
     model: openai/gpt-oss-20b
     input_per_mtok: 0.075
     output_per_mtok: 0.30
+    cached_input_per_mtok: 0.0375
   ollama-qwen-7b:
     provider: ollama
     model: qwen2.5:7b
@@ -49,4 +59,6 @@ models:
     output_per_mtok: 0.0
 
 # Order in which models are tried when the previous one fails (timeout, 429, invalid JSON).
-fallback_chain: [gemini-flash-lite, groq-gpt-oss-120b, ollama-qwen-7b]
+fallback_chain: [groq-gpt-oss-120b, gemini-flash-lite, groq-gpt-oss-20b]  # best quality first, then a different provider; ollama-qwen-7b skipped (not installed)
+# Task 2 drafting: Gemini + draft_v4 passed every assistant check; gpt-oss-120b drafts (v1) leaked internal rules.
+assistant_chain: [gemini-flash-lite, groq-gpt-oss-120b, groq-gpt-oss-20b]
