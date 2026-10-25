@@ -1,6 +1,7 @@
 # Model registry. All providers are reached through their OpenAI-compatible endpoints.
 # Prices are USD per 1M tokens, paid tier, standard (non-batch). Output prices include thinking tokens.
 # Gemini: https://ai.google.dev/gemini-api/docs/pricing (checked 2026-10-25; 3.8 Flash doubles on 2027-01-01).
+# Groq:   https://console.groq.com/docs/models (checked 2026-10-25).
 # Ollama runs locally, so its marginal API cost is 0.
 
 providers:
@@ -31,11 +32,16 @@ models:
     model: gemini-3.8-flash
     input_per_mtok: 0.75
     output_per_mtok: 3.75
-  groq-llama-70b:
+  groq-gpt-oss-120b:
     provider: groq
-    model: llama-3.3-70b-versatile
-    input_per_mtok: 0.59
-    output_per_mtok: 0.79
+    model: openai/gpt-oss-120b
+    input_per_mtok: 0.15
+    output_per_mtok: 0.60
+  groq-gpt-oss-20b:
+    provider: groq
+    model: openai/gpt-oss-20b
+    input_per_mtok: 0.075
+    output_per_mtok: 0.30
   ollama-qwen-7b:
     provider: ollama
     model: qwen2.5:7b
@@ -43,4 +49,4 @@ models:
     output_per_mtok: 0.0
 
 # Order in which models are tried when the previous one fails (timeout, 429, invalid JSON).
-fallback_chain: [gemini-flash-lite, groq-llama-70b, ollama-qwen-7b]
+fallback_chain: [gemini-flash-lite, groq-gpt-oss-120b, ollama-qwen-7b]
