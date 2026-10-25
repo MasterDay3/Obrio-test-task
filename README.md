@@ -2,42 +2,66 @@
 
 OBRIO AI Ops test task.
 
-- **Task 1:** an AI classifier that returns category, priority and the recommended next step.
-- **Task 2:** an internal assistant that returns a summary, three reply variants in different tones and verified knowledge-base citations.
+| | What it does | Report |
+|---|---|---|
+| **Task 1** | Ticket → category, priority (P1–P4), recommended next step, routing team, `needs_human` | [`docs/task1_report.md`](docs/task1_report.md) |
+| **Task 2** | Ticket → summary, 3 reply drafts (formal / empathetic / short) in the customer's language, verified KB citations, human-review gate | [`docs/task2_report.md`](docs/task2_report.md) |
 
-Detailed write-ups: [`docs/task1_report.md`](docs/task1_report.md) and [`docs/task2_report.md`](docs/task2_report.md).
+Design decisions with alternatives and reasons: [`docs/design_decisions.md`](docs/design_decisions.md).
+
+## Results
+
+| | Result |
+|---|---|
+| Classifier, final (gpt-oss-120b + prompt v3 + rules) | **95.2%** fully correct (category and priority) on 42 tuning tickets, **93.3%** on 15 held-out tickets; 100% of human-needed tickets flagged; ~$0.0004 per ticket (~$4 per 10k) |
+| Prompt evolution v1 → v3 | Pass rate 50% → 95% (gpt-oss-120b), 62% → 95% (Gemini Flash-Lite), 33% → 90% (gpt-oss-20b) |
+| Assistant, final (Gemini Flash-Lite + draft_v4) | 100% real citations, 100% correct language, 100% distinct tones, 0 invented numbers, 0 internal-rule leaks, 0 "already done" claims, 100% correct human flags on 14 tickets; ~$0.003 per ticket |
+| Tests | 57 unit tests, no network (`pytest`) |
+
+![Assistant UI](docs/img/assistant_ui.png)
 
 ## Quick start
 
 ```bash
-uv sync
-cp .env.example .env          # add GEMINI_API_KEY and GROQ_API_KEY (both free, no card)
-brew install ollama && ollama serve &   # optional local model
-ollama pull qwen2.5:7b
+uv sync                       # creates .venv with all dependencies
+source .venv/bin/activate
+cp .env.example .env          # add GEMINI_API_KEY and GROQ_API_KEY (both have free tiers)
 
-uv run pytest                                   # unit tests, no network
-uv run python -m eval.run_classifier_eval --models all --prompts v1 v2 v3 --sleep 4
-uv run uvicorn app.main:app --reload            # UI at http://localhost:8000
+pytest -q                                          # unit tests, no network
+uvicorn app.main:app                               # UI at http://localhost:8000
+
+python -m eval.run_classifier_eval --models groq-gpt-oss-120b --prompts v3                     # classifier eval
+python -m eval.run_classifier_eval --models groq-gpt-oss-120b --prompts v3 --dataset holdout   # held-out set
+python -m eval.run_assist_eval --model gemini-flash-lite --sleep 8                             # assistant eval
 ```
+
+API: `POST /api/classify` and `POST /api/assist` with `{"text": "...", "model": null}`; `GET /kb/{article_id}`.
+
+Free tiers have per-minute and per-day limits (Groq gpt-oss-120b: 8k tokens/min, 200k tokens/day). Use `--sleep` for evals. When a limit is hit, the app fails over to the next model automatically.
+
+> **Demo only:** the API has no authentication or rate limiting and spends your API credits. Put it behind SSO or an API-key header before anyone else can reach it.
 
 ## Architecture
 
 ```
-ticket ─┬─> classifier (Task 1) ─> rules safety net ─> category / priority / next step / needs_human
+ticket ─┬─> classifier (Task 1): prompt v3 → LLM (JSON) → validation → rules (escalate only)
+        │                         → category / priority / next step / team / needs_human
         │
-        └─> analyze (summary, language, English search query, candidate articles)
-                 └─> BM25 over KB sections (+ boost for model-picked articles)
-                          └─> draft 3 tones with citations ─> citation verifier ─> human-review gate (UI)
+        └─> assistant (Task 2): analyze (summary, language, English query, candidate articles)
+                 → BM25 over KB sections (+ boost for model-picked articles)
+                 → draft 3 tones + citations (one call)
+                 → checks: quotes exist · numbers grounded · no internal rules · right language
+                 → UI: banner + locked copy buttons when a human must decide
 ```
 
-| Layer | File | Notes |
+| Layer | Files | Notes |
 |---|---|---|
-| Provider adapter | `core/llm.py` | Gemini, Groq and Ollama through their OpenAI-compatible APIs. Timeout, retry with backoff (honours `Retry-After`), cost accounting per call |
+| Provider adapter | `core/llm.py` | Gemini and Groq through their OpenAI-compatible APIs. Timeout, retry with backoff (honours `Retry-After`), no retry on daily quotas, cost accounting incl. cached tokens |
 | Structured output | `core/json_guard.py` | Parse, validate (Pydantic), one repair retry, next model in the chain, then a safe default |
-| Cache | `core/cache.py` | SQLite exact-match cache. The key includes the prompt hash, model and KB version |
-| Classifier | `classifier/` | Taxonomy in `schema.py`, prompts in `prompts/v*.md`, deterministic overrides in `rules.py` |
-| Assistant | `assistant/` | KB in `kb/*.md`, `retrieval.py` (BM25), `assist.py` (pipeline), prompts |
-| Web | `app/` | FastAPI and one HTML page; `/api/assist`, `/api/classify`, `/kb/{id}` |
-| Eval | `eval/`, `data/`, `results/` | Labeled ticket set, runner, per-run tables and summary |
+| Cache | `core/cache.py` | SQLite, thread-safe. Key = prompt content hash + model (+ KB hash); stores the raw model answer, rules re-applied on every hit |
+| Classifier | `classifier/` | `schema.py` (taxonomy, routing), `prompts/v1–v3.md`, `rules.py`, `classify.py` |
+| Assistant | `assistant/` | `kb/*.md` (18 articles), `retrieval.py`, `assist.py`, `prompts/analyze_v1.md`, `draft_v1–v4.md` |
+| Web | `app/` | FastAPI and one HTML page |
+| Eval | `eval/`, `data/`, `results/` | Labelled sets (`tickets_eval.jsonl`, `tickets_holdout.jsonl`, `assist_eval.jsonl`); every run saved as `.md`, `.csv` and `.json` |
 
-Model list, fallback order and prices: `config/models.yaml`.
+Models, prices and fallback order: `config/models.yaml`. The classifier chain is gpt-oss-120b → Gemini 3.5 Flash-Lite → gpt-oss-20b; the assistant chain is Gemini 3.5 Flash-Lite → gpt-oss-120b → gpt-oss-20b. Each task uses the model that measured best for it, with a different provider as backup.
