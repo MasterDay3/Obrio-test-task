@@ -30,12 +30,13 @@ class TicketIn(BaseModel):
     model: str | None = None
 
 
-def chain_for(model: str | None) -> list[LLMClient]:
+def chain_for(model: str | None, chain_key: str = "fallback_chain") -> list[LLMClient]:
     """Selected model first, then the configured fallback chain (minus duplicates and models without keys)."""
     config = load_config()
     if model and model not in config["models"]:
         raise HTTPException(422, f"unknown model {model!r}")
-    order = ([model] if model else []) + [m for m in config["fallback_chain"] if m != model]
+    chain = config.get(chain_key) or config["fallback_chain"]
+    order = ([model] if model else []) + [m for m in chain if m != model]
     return make_chain(order)
 
 
@@ -48,12 +49,17 @@ def index(request: Request):
 def models():
     config = load_config()
     available = {c.alias for c in make_chain(list(config["models"]))}
-    return [{"alias": a, "model": m["model"], "available": a in available} for a, m in config["models"].items()]
+    # Production chain first, so the UI pre-selects the primary model rather than the first config entry.
+    chain = config.get("assistant_chain") or config["fallback_chain"]  # this page is the assistant
+    order = chain + [a for a in config["models"] if a not in chain]
+    return [{"alias": a, "model": config["models"][a]["model"], "available": a in available,
+             "in_chain": a in chain} for a in order]
 
 
 @app.post("/api/assist", response_model=AssistResult)
 def api_assist(ticket: TicketIn):
-    return assist(ticket.text, chain_for(ticket.model), cache=cache)
+    # Drafting uses the assistant chain (or the selected model); classification keeps the classifier's chain.
+    return assist(ticket.text, chain_for(ticket.model, "assistant_chain"), cache=cache, classify_chain=chain_for(None))
 
 
 @app.post("/api/classify", response_model=TicketResult)

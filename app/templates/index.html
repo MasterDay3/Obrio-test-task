@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Support Assistant</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><circle cx='8' cy='8' r='7' fill='%235b4bdb'/></svg>">
 <style>
   :root {
     --bg: #f6f6f8; --card: #fff; --text: #1d1d1f; --muted: #6b6b75; --border: #e2e2e8;
@@ -75,6 +76,11 @@
     </div>
 
     <div class="grid" id="replies"></div>
+
+    <div class="card hidden" id="noteCard">
+      <h2>Internal note for the agent (do not send)</h2>
+      <div id="note"></div>
+    </div>
 
     <div class="card">
       <h2>Knowledge base passages used</h2>
@@ -152,6 +158,8 @@ function render(r) {
   if (!Object.keys(r.replies).length) cards.splice(0, 3, el("div", "card error", "AI drafts unavailable. Write the reply manually."));
   $("replies").replaceChildren(...cards);
   updateCopyButtons();
+  $("note").textContent = r.agent_note || "";
+  $("noteCard").classList.toggle("hidden", !r.agent_note);
 
   $("passages").replaceChildren(...(r.passages.length ? r.passages.map((p) => {
     const d = el("div", "passage");
@@ -160,8 +168,10 @@ function render(r) {
     return d;
   }) : [el("div", "muted", "No relevant article found.")]));
 
-  $("meta").textContent = `model: ${r.classification?.model || "n/a"} · cost: $${r.cost_usd.toFixed(5)} · latency: ${r.latency_s}s`
-    + (r.cached ? " · cached" : "") + (r.errors.length ? ` · ${r.errors.length} recovered error(s)` : "");
+  $("meta").textContent = `model: ${r.classification?.model || "n/a"} · `
+    + (r.cached ? `cached: no new cost (original $${r.cost_usd.toFixed(5)}, ${r.latency_s}s)`
+                : `cost: $${r.cost_usd.toFixed(5)} · latency: ${r.latency_s}s`)
+    + (r.errors.length ? ` · ${r.errors.length} recovered error(s)` : "");
 }
 
 $("ack").onchange = updateCopyButtons;
